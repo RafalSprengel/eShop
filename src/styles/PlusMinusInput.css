@@ -1,0 +1,29 @@
+.basket-quantity {
+  display: flex;
+  width: 140px;
+  height: 45px;
+  margin: 20px auto;
+  border: 1px solid grey;
+  font-size: 2rem;
+}
+.basket-quantity input {
+  font-size: 1.2rem;
+  width: 50px;
+  text-align: center;
+  border: none;
+}
+.basket-quantity .minus,
+.plus {
+  flex: 1;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* text-align: center; */
+}
+.basket-quantity .minus {
+  border-right: 1px solid grey;
+}
+.basket-quantity .plus {
+  border-left: 1px solid grey;
+}
