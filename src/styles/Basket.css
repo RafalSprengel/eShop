@@ -1,0 +1,35 @@
+#basket-wrap{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+h2, h4 {
+    color: rgb(70,70,70);
+    font-weight: 600;
+}
+
+#basket-back-link{
+    margin-bottom: 20px
+}
+
+.product-in-basket ul{
+    display:    flex;
+
+}
+.product-in-basket ul>li{
+    list-style-type: none;
+    height: 100px;
+    width: 150px;
+
+}
+.product-in-basket ul>li>img{
+    object-fit: contain;
+    width:100%;
+    height: 100%;
+
+}
+.product-in-basket ul>li>p:last-child{
+    background-color: #ededed;
+
+}
