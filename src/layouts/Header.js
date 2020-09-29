@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../pics/logo.png";
 import Nav from "../components/Nav";
 import "../styles/Header.css";
@@ -17,19 +17,19 @@ const Header = ({ basket }) => {
     <header>
       <div id="header-in-center">
         <div className="upper-header">
-          <Link to="/">
+          <NavLink exact to="/">
             <img src={logo} alt="logo" id="logo" />
-          </Link>
+          </NavLink>
           <div id="upper-header-blank"></div>
 
           <div id="shopping-cart-icon-wrap">
             <div id="cart-counter">{basket.length}</div>
-            <Link to="/basket">
+            <NavLink to="/basket">
               <FontAwesomeIcon
                 icon={faShoppingCart}
                 className="shopping-cart-icon"
               />
-            </Link>
+            </NavLink>
           </div>
 
           <div id="menu-bars-icon-wrap">
