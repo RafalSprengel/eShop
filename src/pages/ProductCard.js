@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,7 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import PlusMinusInput from "../components/PlusMinusInput";
 import "../styles/PlusMinusInput.css";
-import "../styles/ProductCard.css";
+import "../styles/ProductCard.scss";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiPaper-root": {
       padding: "10px"
     }
+  },
+  dialogBut: {
+    margin: theme.spacing(1),
+    "& a": {
+      color: "white"
+    }
   }
 }));
 
@@ -36,14 +43,13 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
   const [quantity, setQuantity] = useState(1);
   const [productObj, setProductObj] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  console.log(propsRoute);
   const addToBasket = (currProdObj) => {
     const prodAlrInBask = basket.find(
       (prodObj) => prodObj.id === currProdObj.id
     );
     if (prodAlrInBask) {
       let newQuantity = currProdObj.quantity
-        ? parseInt(currProdObj.quantity) + quantity
+        ? parseInt(currProdObj.quantity, 2) + quantity
         : quantity;
       setBasket((prevState) => {
         const newPrevState = prevState.filter((el) => el.id !== currProdObj.id);
@@ -81,18 +87,18 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
       {productObj.length !== 0 && (
         <div>
           <p
-            className="product-back-link"
+            className="product-card__back-link"
             onClick={() => propsRoute.history.goBack()}
           >
             &#8592; Back to the list
           </p>
           <Divider />
-          <p className="product-img-wrap">
+          <p className="product-card__img-wrap">
             <img src={productObj.image} alt="" />
           </p>
 
           <h3>{productObj.title}</h3>
-          <span className="product-price">£{productObj.price}</span>
+          <span className="product-card__price">£{productObj.price}</span>
           <div>
             <PlusMinusInput
               value={quantity}
@@ -108,7 +114,6 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
           >
             Add to basket
           </Button>
-
           <Button
             className={classes.root}
             fullWidth
@@ -140,20 +145,31 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
         open={openDialog}
         onClose={() => setOpenDialog(false)}
       >
-        <div className="product-dialog-upper-wrap">
-          <div className="product-dialog-img-wrap">
+        <div className="product-card__dialog__wrap">
+          <div className="product-card__dialog__img-wrap">
             <img src={productObj.image} alt="img" />
           </div>
-          <div className="product-dialog-text">
+          <div className="product-card__dialog__text">
             <h4>Added to the basket</h4>
-            <p className="product-dialog-desc">{productObj.title}</p>
-            <p className="product-dialog-quant">Quantity: {quantity}</p>
+            <p className="product-card__dialog__desc">{productObj.title}</p>
+            <p className="product-card__dialog__quant">Quantity: {quantity}</p>
           </div>
         </div>
-        <Button onClick={() => setOpenDialog(false)} color="primary">
-          Go to the basket
+
+        <Button
+          className={classes.dialogBut}
+          variant="contained"
+          color="primary"
+        >
+          <Link to="/basket">go to the basket</Link>
         </Button>
-        <Button onClick={() => propsRoute.history.goBack()} color="primary" autoFocus>
+
+        <Button
+          className={classes.dialogBut}
+          variant="contained"
+          color="secondary"
+          autoFocus
+        >
           Back to shopping
         </Button>
       </Dialog>
