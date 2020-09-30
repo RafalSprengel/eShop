@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   dialogBut: {
-    margin: theme.spacing(1),
+    width: '100%',
+    marginBottom: theme.spacing(1),
     "& a": {
       color: "white"
     }
@@ -39,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductCard = ({ propsRoute, basket, setBasket }) => {
   const productId = propsRoute.match.params.id;
+  console.log('props.route to : ');
+  console.log(propsRoute)
   const classes = useStyles();
   const [quantity, setQuantity] = useState(1);
   const [productObj, setProductObj] = useState([]);
@@ -143,7 +146,6 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
       <Dialog
         className={classes.dialogRoot}
         open={openDialog}
-        onClose={() => setOpenDialog(false)}
       >
         <div className="product-card__dialog__wrap">
           <div className="product-card__dialog__img-wrap">
@@ -155,20 +157,22 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
             <p className="product-card__dialog__quant">Quantity: {quantity}</p>
           </div>
         </div>
-
-        <Button
-          className={classes.dialogBut}
-          variant="contained"
-          color="primary"
-        >
-          <Link to="/basket">go to the basket</Link>
+        <Link to="/basket">
+          <Button
+            className={classes.dialogBut}
+            variant="contained"
+            color="primary"
+          >
+            go to the basket
         </Button>
+        </Link>
 
         <Button
           className={classes.dialogBut}
           variant="contained"
           color="secondary"
           autoFocus
+          onClick={() => propsRoute.history.goBack()}
         >
           Back to shopping
         </Button>

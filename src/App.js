@@ -76,7 +76,7 @@ function App() {
   };
 
   useEffect(() => {
-    const API = "https://fakestoreapi.com/products?limit=6";
+    const API = "https://fakestoreapi.com/products?limit=999";
     fetch(API)
       .then((response) => {
         if (response.ok) return response;
