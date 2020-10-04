@@ -1,6 +1,7 @@
 import React from 'react';
+import "../styles/PlusMinusInput.scss";
 
-const PlusMinusInput = ({ value, getCurrValue }) => {
+const PlusMinusInput = ({ value, getCurrValue, variant }) => {
     const chandlePlusMinus = (number) => {
         if (value < 2 && number === -1) return null
         getCurrValue(value + number)
@@ -12,11 +13,12 @@ const PlusMinusInput = ({ value, getCurrValue }) => {
         else getCurrValue(parseInt(event.target.value))
     }
 
+    let className = (variant === 'small') ? 'plusMinusInput plusMinusInput--small' : 'plusMinusInput'
     return (
-        <div className='basket-quantity'>
-            <div className='minus' onClick={() => chandlePlusMinus(-1)}>-</div>
+        <div className={className}>
+            <div className='plusMinusInput__minus' onClick={() => chandlePlusMinus(-1)}>-</div>
             <input className='quantity' value={value} onChange={chandleInput} onFocus={(e) => e.target.value = ''} />
-            <div className='plus' onClick={() => chandlePlusMinus(+1)}>+</div>
+            <div className='plusMinusInput__plus' onClick={() => chandlePlusMinus(+1)}>+</div>
         </div>
     )
 }

@@ -12,11 +12,11 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import PlusMinusInput from "../components/PlusMinusInput";
-import "../styles/PlusMinusInput.css";
+
 import "../styles/ProductCard.scss";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  button__root: {
     height: "40px",
     marginBottom: "13px"
   },
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff"
   },
-  dialogRoot: {
+  dialog__root: {
     "& .MuiPaper-root": {
       padding: "10px"
     }
@@ -40,8 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductCard = ({ propsRoute, basket, setBasket }) => {
   const productId = propsRoute.match.params.id;
-  console.log('props.route to : ');
-  console.log(propsRoute)
   const classes = useStyles();
   const [quantity, setQuantity] = useState(1);
   const [productObj, setProductObj] = useState([]);
@@ -102,28 +100,21 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
 
           <h3>{productObj.title}</h3>
           <span className="product-card__price">£{productObj.price}</span>
-          <div>
+          <div className='product-card__plusMinusInput-wrap'>
             <PlusMinusInput
+              style={{ width: '200px' }}
               value={quantity}
               getCurrValue={(newValue) => setQuantity(newValue)}
             />
           </div>
           <Button
-            className={classes.root}
+            className={classes.button__root}
             fullWidth
             variant="contained"
             color="primary"
             onClick={() => addToBasket(productObj)}
           >
             Add to basket
-          </Button>
-          <Button
-            className={classes.root}
-            fullWidth
-            variant="contained"
-            color="secondary"
-          >
-            Add to favorites
           </Button>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -144,7 +135,7 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
         </div>
       )}
       <Dialog
-        className={classes.dialogRoot}
+        className={classes.dialog__root}
         open={openDialog}
       >
         <div className="product-card__dialog__wrap">
