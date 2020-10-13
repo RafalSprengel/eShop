@@ -4,6 +4,7 @@ import logo from "../pics/logo.png";
 import Nav from "../components/Nav";
 import "../styles/Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faShoppingCart,
   faBars,
@@ -24,7 +25,7 @@ const Header = ({ basket }) => {
 
           <div id="shopping-cart-icon-wrap">
             <div id="cart-counter">{basket.length}</div>
-            <NavLink to="/basket">
+            <NavLink to='/basket'>
               <FontAwesomeIcon
                 icon={faShoppingCart}
                 className="shopping-cart-icon"

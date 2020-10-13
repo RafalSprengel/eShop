@@ -1,19 +1,24 @@
-.plusMinusInput{
+.plusMinusInput{ 
   display: flex;
   width: 140px;
-  height: 45px;
+  height: 45px; 
   margin: 0 auto;
   border: 1px solid grey;
+  background-color: white;
   font-size: 2rem;
-  & input{
+  font-weight: 600;
+  &__input{
     font-size: 1.2rem;
     width: 50px;
     text-align: center;
     border: none;
+    &--small{
+      width: 30px;
+      font-size: 0.8rem;
+    }
   };
   &__minus, &__plus{
     flex: 1;
-    width: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,5 +31,10 @@
   };
   &--small{
     height: 30px;
+    width: 100px;
+    font-size: 1.5rem;
+  }
+  &--disabled{
+    color: silver;
   }
 }

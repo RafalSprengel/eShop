@@ -28,5 +28,12 @@ content {
   flex: 1;
   width: 100%;
   margin: 0 auto;
-  padding: 10px 10px;
+  background-color: #eee;
+}
+.back-link{
+  color: #287fd9;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  text-decoration: underline;
 }

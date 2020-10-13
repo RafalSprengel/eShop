@@ -88,7 +88,7 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
       {productObj.length !== 0 && (
         <div>
           <p
-            className="product-card__back-link"
+            className="back-link"
             onClick={() => propsRoute.history.goBack()}
           >
             &#8592; Back to the list
@@ -99,12 +99,12 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
           </p>
 
           <h3>{productObj.title}</h3>
-          <span className="product-card__price">£{productObj.price}</span>
+          <span className="product-card__price">£{productObj.price.toFixed(2)}</span>
           <div className='product-card__plusMinusInput-wrap'>
             <PlusMinusInput
               style={{ width: '200px' }}
               value={quantity}
-              getCurrValue={(newValue) => setQuantity(newValue)}
+              setQuantity={(newValue) => setQuantity(newValue)}
             />
           </div>
           <Button

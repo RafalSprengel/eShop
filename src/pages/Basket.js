@@ -9,6 +9,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles((theme) => ({
   dialog__remove__wrap: {
@@ -76,6 +78,7 @@ const SingleProduct = ({
 
     );
   };
+
   return (
     <>
       <div className="basket__product">
@@ -88,25 +91,36 @@ const SingleProduct = ({
             <p className='basket_product__code'>Product code: {currProdObj.id}</p>
           </div>
         </div>
-        <div className='basket__product__quantity-wrap'>
-          <p>{currProdObj.quantity && `Quantity: ${currProdObj.quantity}`}</p>
-          <PlusMinusInput
-            value={currProdObj.quantity}
-            getCurrValue={setQuantity}
-            variant='small'
-          />
+        <div className='basket__product__calc'>
+          <span className='basket__product__quantity basket__product__desc'>Quantity:</span>
+          <span>
+            <PlusMinusInput
+              value={currProdObj.quantity}
+              setQuantity={setQuantity}
+              variant='small'
+              disabled
+            />
+          </span>
+          <span></span>
+
         </div>
-        <div className='basket__product__price-wrap'>
-          <span>Item price :</span>
-          <span>£{currProdObj.price}</span>
+        <div className='basket__product__calc'>
+          <span className='basket__product__desc'>Item price :</span>
+          <span className='basket__product__price'>£{currProdObj.price.toFixed(2)}</span>
+          <span className='basket__product__price-blank'></span>
         </div>
-        <div className='basket__product__totalPrice-wrap'>
-          <p>Total price:</p>
-          <p>£{(currProdObj.quantity * currProdObj.price)}</p>
+        <div className='basket__product__calc'>
+          <span className='basket__product__desc'>Total price:</span>
+          <span className='basket__product__price'>£{(currProdObj.quantity * currProdObj.price).toFixed(2)}</span>
+
+          <span className='basket__product__bin'>
+            <FontAwesomeIcon
+              icon={faTrashAlt}
+              onClick={() => setOpenRemConf(true)}
+            />
+          </span>
         </div>
-        <Button variant="contained" color="primary" onClick={() => setOpenRemConf(true)}>Remove</Button>
       </div>
-      <Divider />
       <RemovingDialog
         openRemConf={openRemConf}
         setOpenRemConf={setOpenRemConf}
@@ -118,27 +132,43 @@ const SingleProduct = ({
   );
 };
 
-const Basket = ({ basket, setBasket, chanProdQuantInBask }) => {
+const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
+  let prices = basket.map((el) => el.price * el.quantity)
+  let summaryPrice = (basket.length > 0) ? prices.reduce((total, curr) => total + curr) : 0;
   return (
     <>
-      <div className="basket">
-        <p className="basket__back-link">&laquo; continue shopping</p>
-        <h2>Your basket</h2>
-        <h4 className='basket__products-counter'>({basket.length} products)</h4>
-        <Divider />
-        <div id="basket-products-list">
-          {basket.map((currProdObj) => (
-            <div key={currProdObj.title}>
-              <SingleProduct
-                currProdObj={currProdObj}
-                chanProdQuantInBask={chanProdQuantInBask}
-                basket={basket}
-                setBasket={setBasket}
-              />
+      {(basket.length > 0 &&
+        <div className="basket">
+          <div className='basket__header'>
+            <p className="back-link" onClick={() => propsRoute.history.goBack()}>&#8592; back to shopping</p>
+            <h2>Your basket</h2>
+            <h4 className='basket__products-counter'>({basket.length} products)</h4>
+          </div>
+          <Divider />
+          <div id="basket-products-list">
+            {basket.map((currProdObj) => (
+              <div key={currProdObj.title}>
+                <SingleProduct
+                  currProdObj={currProdObj}
+                  chanProdQuantInBask={chanProdQuantInBask}
+                  basket={basket}
+                  setBasket={setBasket}
+                />
+              </div>
+            ))}
+          </div>
+          <div className='basket__summary__wrap'>
+            <div className='basket__summary__title'>
+              Subtotal ({basket.length} items) :&nbsp;
+            <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
             </div>
-          ))}
+            <button
+              className='basket__summary__button'
+              onClick={() => alert('Feature available soon...')}
+            >Proceed to Checkout</button>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

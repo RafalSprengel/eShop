@@ -35,7 +35,7 @@ const Product = ({ product }) => {
             <p className={classes.root}>
                 <Rating name="half-rating" value={stars} defaultValue={2.6} precision={0.5} size='small' readOnly />
             </p>
-            <p className='price'>£{product.price}</p>
+            <p className='price'>£{product.price.toFixed(2)}</p>
         </div >
     )
 }
