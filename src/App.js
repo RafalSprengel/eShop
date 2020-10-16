@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch } from 'react-router-dom'
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Header from "./layouts/Header.js";
 import Page from "./layouts/Page";
 import Footer from "./layouts/Footer";
+import CheckoutLogin from './pages/CheckoutLogin'
 import "./styles/App.css";
 
 const theme = createMuiTheme({
@@ -91,19 +93,25 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
-          <Header basket={basket} />
-          <content>
-            {/* Can be horisontal Navbar here in the future */}
-            <Page
-              productsList={productsList}
-              basket={basket}
-              setBasket={setBasket}
-              chanProdQuantInBask={chanProdQuantInBask}
-            />
-          </content>
-          <footer>
-            <Footer />
-          </footer>
+          <Switch>
+            <Route path='/basket/login' component={CheckoutLogin} />
+            <Route path='/' render={() =>
+              <>
+                <Header basket={basket} />
+                <content>
+                  <Page
+                    productsList={productsList}
+                    basket={basket}
+                    setBasket={setBasket}
+                    chanProdQuantInBask={chanProdQuantInBask}
+                  />
+                </content>
+                <footer>
+                  <Footer />
+                </footer>
+              </>
+            } />
+          </Switch>
         </div>
       </Router>
     </ThemeProvider>

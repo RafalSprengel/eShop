@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import "../styles/Basket.scss";
@@ -162,10 +163,11 @@ const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
               Subtotal ({basket.length} items) :&nbsp;
             <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
             </div>
-            <button
-              className='basket__summary__button'
-              onClick={() => alert('Feature available soon...')}
-            >Proceed to Checkout</button>
+            <NavLink to='/basket/login'>
+              <button
+                className='basket__summary__button'
+              >Proceed to Checkout</button>
+            </NavLink>
           </div>
         </div>
       )}

@@ -1,0 +1,68 @@
+.checkoutLogin{
+
+  &__header{
+    display: flex;
+    padding : 10px;
+    align-items: center;
+    height: 75px;
+    color: white;
+
+    &__logo{
+        flex-basis: 100px;
+        &__img{
+            width: 100px;
+        }
+    }
+    &__help-line{
+        flex:1;
+        text-align: right;
+        &__number{
+            font-weight: 500;
+        }
+    }
+  } ;
+
+  &__stepper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__steps{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px;
+    }
+    &__step{
+      &__number{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 1;
+        border: 1px solid #333;
+        border-radius: 50%;
+      };
+      &__text{
+        color: #333
+      };
+      &--active{
+        & span:first-child{
+          color:white;
+          background-color: #333;
+        };
+        & span:nth-child(2){
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  &__content{
+    flex: 1
+  };
+
+  &__footer{
+    height: 60px;
+  }
+}
+ 
