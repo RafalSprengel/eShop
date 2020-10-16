@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import '../styles/checkoutLogin.scss'
 import logo from '../pics/logo.png'
 
@@ -7,9 +8,11 @@ const CheckoutLogin = () => {
     return (
         <>
             <header className='checkoutLogin__header'>
-                <div className='checkoutLogin__header__logo'>
-                    <img src={logo} alt='logo' className='checkoutLogin__header__logo__img' />
-                </div>
+                <Link to='/'>
+                    <div className='checkoutLogin__header__logo'>
+                        <img src={logo} alt='logo' className='checkoutLogin__header__logo__img' />
+                    </div>
+                </Link>
                 <div className='checkoutLogin__header__help-line'>
                     Need help?&nbsp;
                     <span className='checkoutLogin__header__help-line__number'>0330 123 3210</span>
@@ -19,7 +22,7 @@ const CheckoutLogin = () => {
             <content className='checkoutLogin__content'>
                 <div className='checkoutLogin__stepper'>
                     <div className='checkoutLogin__stepper__steps'>
-                        <div classname='checkoutLogin__stepper__step'>
+                        <div className='checkoutLogin__stepper__step'>
                             <span className='checkoutLogin__stepper__step__number'>1</span>
                             <span className='checkoutLogin__stepper__step__text'>login</span>
                         </div>
