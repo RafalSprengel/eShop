@@ -94,8 +94,8 @@ function App() {
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
           <Switch>
-            <Route path='/basket/login' component={CheckoutLogin} />
-            <Route path='/' render={() =>
+            <Route path='/basket' component={CheckoutLogin} />
+            <Route path='/' exact render={() =>
               <>
                 <Header basket={basket} />
                 <content>
@@ -111,6 +111,7 @@ function App() {
                 </footer>
               </>
             } />
+            <Route render={() => 'Page doesn`t exist!'} />
           </Switch>
         </div>
       </Router>
