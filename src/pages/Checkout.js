@@ -45,8 +45,10 @@ const Login = () => {
                     </label>
                 </NavLink>
             </div>
-            <Route path='/checkout/login' render={() => 'formularz logowania'} />
-            <Route path='/checkout/login/guest' render={() => 'formularz dla gościa'} />
+            <Switch>
+                <Route path='/checkout/login' exact render={() => 'formularz logowania'} />
+                <Route path='/checkout/login/guest' exact render={() => 'formularz dla gościa'} />
+            </Switch>
 
         </>
     )
