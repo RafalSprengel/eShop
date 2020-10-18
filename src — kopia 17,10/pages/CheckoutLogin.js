@@ -3,10 +3,9 @@ import { Route, Switch } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import '../styles/checkoutLogin.scss'
 import logo from '../pics/logo.png'
-import { render } from 'node-sass';
 
 const Stepper = () => {
-    render(
+    return (
         <>
         </>
     )

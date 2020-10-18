@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Switch } from 'react-router-dom'
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import ProductsList from './pages/ProductsList'
-import ProductCard from './pages/ProductCard'
-import Basket from './pages/Basket'
-import Checkout from './pages/Checkout'
+import Header from "./layouts/Header.js";
+import Page from "./layouts/Page";
+import Footer from "./layouts/Footer";
+import CheckoutLogin from './pages/CheckoutLogin'
 import "./styles/App.css";
 
 const theme = createMuiTheme({
@@ -94,24 +94,24 @@ function App() {
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
           <Switch>
-            <Route path='/' exact render={() => <ProductsList basket={basket} productsList={productsList} />} />
-            <Route path='/product/:id' render={(propsRoute) =>
-              <ProductCard
-                propsRoute={propsRoute}
-                basket={basket}
-                setBasket={setBasket}
-              />}
-            />
-            <Route path='/checkout' component={Checkout} />
-            <Route path='/basket' render={(propsRoute) =>
-              <Basket
-                basket={basket}
-                setBasket={setBasket}
-                chanProdQuantInBask={chanProdQuantInBask}
-                propsRoute={propsRoute}
-              />}
-            />
-            <Route render={() => (<div style={{ textAlign: 'center' }}>Page not found</div>)} />
+            <Route path='/basket/login' component={CheckoutLogin} />
+            <Route path='/' render={() =>
+              <>
+                <Header basket={basket} />
+                <content>
+                  <Page
+                    productsList={productsList}
+                    basket={basket}
+                    setBasket={setBasket}
+                    chanProdQuantInBask={chanProdQuantInBask}
+                  />
+                </content>
+                <footer>
+                  <Footer />
+                </footer>
+              </>
+            } />
+            <Route render={() => 'Page doesn`t exist!'} />
           </Switch>
         </div>
       </Router>

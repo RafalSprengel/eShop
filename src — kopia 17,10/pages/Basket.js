@@ -3,8 +3,6 @@ import { NavLink } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import "../styles/Basket.scss";
-import Header from "../layouts/Header.js";
-import Footer from "../layouts/Footer";
 import PlusMinusInput from "../components/PlusMinusInput";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -140,7 +138,6 @@ const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
   let summaryPrice = (basket.length > 0) ? prices.reduce((total, curr) => total + curr) : 0;
   return (
     <>
-      <Header basket={basket} />
       {(basket.length > 0 &&
         <div className="basket">
           <div className='basket__header'>
@@ -166,7 +163,7 @@ const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
               Subtotal ({basket.length} items) :&nbsp;
             <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
             </div>
-            <NavLink to='/checkout/login'>
+            <NavLink to='/basket/login'>
               <button
                 className='basket__summary__button'
               >Proceed to Checkout</button>
@@ -174,7 +171,6 @@ const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
           </div>
         </div>
       )}
-      <Footer />
     </>
   );
 };

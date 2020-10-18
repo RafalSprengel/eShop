@@ -2,8 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles';
-import Header from "../layouts/Header.js";
-import Footer from "../layouts/Footer";
 import '../styles/ProductsList.css'
 
 
@@ -42,18 +40,14 @@ const Product = ({ product }) => {
     )
 }
 
-const ProductsList = ({ basket, productsList }) => {
+const Products = ({ productsList }) => {
     return (
-        <>
-            <Header basket={basket} />
-            <div className='products'>
-                {(productsList && productsList.map(el =>
-                    <Product product={el} key={el.id} />
-                ))}
-            </div>
-            <Footer />
-        </>
+        <div className='products'>
+            {(productsList && productsList.map(el =>
+                <Product product={el} key={el.id} />
+            ))}
+        </div>
     )
 }
 
-export default ProductsList;
+export default Products;

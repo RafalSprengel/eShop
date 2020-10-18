@@ -1,0 +1,78 @@
+.checkout{
+
+  &__header{
+    display: flex;
+    padding : 10px;
+    align-items: center;
+    height: 75px;
+    color: white;
+
+    &__logo{
+        flex-basis: 100px;
+        &__img{
+            width: 100px;
+        }
+    }
+    &__help-line{
+        flex:1;
+        text-align: right;
+        &__number{
+            font-weight: 500;
+        }
+    }
+  } ;
+
+  &__stepper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .9rem;
+    border-bottom: 1px solid silver;
+    &__steps{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px;
+    }
+    &__step{
+      flex: 1 1;
+      display: flex;
+      align-items: center;
+      min-width: 60px;
+      padding: 2px;
+      color: #9b9999;
+      &__number{
+        display: inline-block;
+        margin-right: 5px;
+        min-width: 18px;
+        height: 18px;
+        text-align: center;
+        line-height: 1.1; 
+        border: 1px solid #9b9999;
+        border-radius: 50%;
+        position: relative;
+      };
+      & a:visited{
+        color: inherit;
+      }
+      &--active{
+        & span:first-child{
+          color:white;
+          background-color: #333;
+        };
+        & span:nth-child(2){
+          font-weight: 700;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  &__footer{
+    height: 60px;
+  }
+
+  &__radios{
+    padding: 20px;
+  }
+};

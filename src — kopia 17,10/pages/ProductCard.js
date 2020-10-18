@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Header from "../layouts/Header.js";
-import Footer from "../layouts/Footer";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -81,7 +79,6 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
   }, [productId]);
   return (
     <>
-      <Header basket={basket} />
       {productObj.length === 0 && (
         <Backdrop open={true} className={classes.backdrop}>
           <CircularProgress color="inherit" />
@@ -171,7 +168,6 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
           Back to shopping
         </Button>
       </Dialog>
-      <Footer />
     </>
   );
 };
