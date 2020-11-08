@@ -38,7 +38,7 @@
           };
           /* On mouse-over, add a grey background color */
           & input:checked ~ .customRadio__container__checkmark {
-            background-color: #2196F3;
+            background-color: #0277bd;
           };
           /* Show the indicator (dot/circle) when checked */
           & input:checked ~ .customRadio__container__checkmark:after {

@@ -163,7 +163,7 @@ const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
           </div>
           <div className='basket__summary__wrap'>
             <div className='basket__summary__title'>
-              Subtotal ({basket.length} items) :&nbsp;
+              Subtotal ({basket.length} items):&nbsp;
             <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
             </div>
             <NavLink to='/checkout/login'>

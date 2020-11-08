@@ -79,6 +79,7 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
       .then((response) => setProductObj(response))
       .catch((errors) => console.log(errors));
   }, [productId]);
+
   return (
     <>
       <Header basket={basket} />
@@ -89,7 +90,7 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
         </Backdrop>
       )}
       {productObj.length !== 0 && (
-        <div>
+        <div className='productCard'>
           <p
             className="back-link"
             onClick={() => propsRoute.history.goBack()}
@@ -97,13 +98,13 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
             &#8592; Back to the list
           </p>
           <Divider />
-          <p className="product-card__img-wrap">
+          <p className="productCard__img-wrap">
             <img src={productObj.image} alt="" />
           </p>
 
           <h3>{productObj.title}</h3>
-          <span className="product-card__price">£{productObj.price.toFixed(2)}</span>
-          <div className='product-card__plusMinusInput-wrap'>
+          <span className="productCard__price">£{productObj.price.toFixed(2)}</span>
+          <div className='productCard__plusMinusInput-wrap'>
             <PlusMinusInput
               style={{ width: '200px' }}
               value={quantity}
@@ -141,14 +142,14 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
         className={classes.dialog__root}
         open={openDialog}
       >
-        <div className="product-card__dialog__wrap">
-          <div className="product-card__dialog__img-wrap">
+        <div className="productCard__dialog__wrap">
+          <div className="productCard__dialog__img-wrap">
             <img src={productObj.image} alt="img" />
           </div>
-          <div className="product-card__dialog__text">
+          <div className="productCard__dialog__text">
             <h4>Added to the basket</h4>
-            <p className="product-card__dialog__desc">{productObj.title}</p>
-            <p className="product-card__dialog__quant">Quantity: {quantity}</p>
+            <p className="productCard__dialog__desc">{productObj.title}</p>
+            <p className="productCard__dialog__quant">Quantity: {quantity}</p>
           </div>
         </div>
         <Link to="/basket">
