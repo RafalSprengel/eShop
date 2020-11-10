@@ -105,25 +105,35 @@
     &__title{
       font-size: 1.3rem;
       font-weight: 500;
-      padding: 20px 0;
+      padding: 15px 0;
     }
     &__desc{
       font-size: 1rem;
-      padding: 0 10px 20px;
+      padding: 0 10px 10px;
     }
     &__starRequired{
       padding: 10px;
+      font-size: .8rem;
       &::before{
         content: '*';
         color: red;
       }
     }
-    &__findAddressField{
+    &__findAddressText{
       width: 100%;;
       padding: 0 0;
       margin: 10px 0;
       text-align: center;
       font-size: 1.1rem;
+    }
+    &__findPostcodeButton{
+      width: 50%;
+      margin: 15px auto;
+    }
+    &__removeAddress{
+      color: blue;
+      text-decoration: underline;
+      margin: 10px 0;
     }
   };
   &__payment{
