@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import { NavLink } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
@@ -138,42 +139,48 @@ const SingleProduct = ({
 const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
   let prices = basket.map((el) => el.price * el.quantity)
   let summaryPrice = (basket.length > 0) ? prices.reduce((total, curr) => total + curr) : 0;
+  const history = useHistory()
+
+  const goToLoginPage = () => {
+    history.push({ pathname: '/checkout/login' })
+  }
+
   return (
     <>
       <Header basket={basket} />
-      {(basket.length > 0 &&
-        <div className="basket">
-          <div className='basket__header'>
-            <p className="back-link" onClick={() => propsRoute.history.goBack()}>&#8592; back to shopping</p>
-            <h2>Your basket</h2>
-            <h4 className='basket__products-counter'>({basket.length} products)</h4>
-          </div>
-          <Divider />
-          <div id="basket-products-list">
-            {basket.map((currProdObj) => (
-              <div key={currProdObj.title}>
-                <SingleProduct
-                  currProdObj={currProdObj}
-                  chanProdQuantInBask={chanProdQuantInBask}
-                  basket={basket}
-                  setBasket={setBasket}
-                />
-              </div>
-            ))}
-          </div>
-          <div className='basket__summary__wrap'>
-            <div className='basket__summary__title'>
-              Subtotal ({basket.length} items):&nbsp;
-            <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
+      <content>
+        {(basket.length > 0 &&
+          <div className="basket">
+            <div className='basket__header'>
+              <p className="back-link" onClick={() => propsRoute.history.goBack()}>&#8592; back to shopping</p>
+              <h2>Your basket</h2>
+              <h4 className='basket__products-counter'>({basket.length} products)</h4>
             </div>
-            <NavLink to='/checkout/login'>
-              <button
-                className='basket__summary__button'
-              >Proceed to Checkout</button>
-            </NavLink>
+            <Divider />
+            <div id="basket-products-list">
+              {basket.map((currProdObj) => (
+                <div key={currProdObj.title}>
+                  <SingleProduct
+                    currProdObj={currProdObj}
+                    chanProdQuantInBask={chanProdQuantInBask}
+                    basket={basket}
+                    setBasket={setBasket}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className='basket__summary__wrap'>
+              <div className='basket__summary__title'>
+                Subtotal ({basket.length} items):&nbsp;
+            <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
+              </div>
+              <NavLink to='/checkout/login'>
+                <button className='basket__summary__button'>Proceed to Checkout</button>
+              </NavLink>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </content>
       <Footer />
     </>
   );

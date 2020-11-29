@@ -46,11 +46,14 @@ const ProductsList = ({ basket, productsList }) => {
     return (
         <>
             <Header basket={basket} />
-            <div className='products'>
-                {(productsList && productsList.map(el =>
-                    <Product product={el} key={el.id} />
-                ))}
-            </div>
+            <content>
+                <div className='products'>
+                    {(productsList && productsList.map(el =>
+                        <Product product={el} key={el.id} />
+                    ))}
+                </div>
+            </content>
+
             <Footer />
         </>
     )

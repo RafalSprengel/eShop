@@ -105,17 +105,81 @@ const LoginForm = () => {
 
 const AddressForm = () => {
 
-    const [formFieldsObj, setformFieldsObj] = useState('');
+    const [formFieldsObj, setformFieldsObj] = useState({
+        firstName: {
+            value: ''
+        },
+        lastName: {
+            value: ''
+        },
+        tel: {
+            value: ''
+        },
+        email: {
+            value: ''
+        }
+    });
     const [postcodeInputValue, setPostcodeInputValue] = useState('')
     const [addressListTab, setAddressListTab] = useState('')
     const [chosenAddress, setChosenAddress] = useState(null)
     const classes = useStyles();
-   /*  const handleFieldOnChange = (e) => {
+    const handleFieldOnChange = (e) => {
         const { value, name } = e.target;
         setformFieldsObj((prev) => ({ ...prev, [name]: { 'value': value } }))
-    } */
+    }
 
+    const handleFieldOnBlur = (e) => {
+        const { value, name } = e.target;
+        const fieldsOptions = [{
+            'fieldName': 'firstName',
+            'regExp': String.raw`^[\wżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$`,
+            'message': 'Please use only a-z, 0-1 and _.'
+        },
+        {
+            'fieldName': 'lastName',
+            'regExp': String.raw`^[\wżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$`,
+            'message': 'Please use only a-z, 0-1 and _.'
+        },
+        {
+            'fieldName': 'email',
+            'regExp': String.raw`^\w+(\.\w+)*@\w+(\.\w+)*$`,
+            'message': 'Please use valid email address format i.e. (xx@xx.xx)'
+        },
+        {
+            'fieldName': 'tel',
+            'regExp': String.raw`^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$`,
+            'message': 'Please use valid telephone number format, you can use digits, "(", ")", + and #'
+        },
+        {
+            'fieldName': 'postcode',
+            'regExp': String.raw`^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([AZa-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))[0-9][A-Za-z]{2})$`,
+            'message': 'Please use valid postcode format'
+        }]
+        const validation = function () {
+            fieldsOptions.forEach((el) => {
 
+                if (el.fieldName === name) {
+                    const regExp = new RegExp(el.regExp);
+
+                    if (regExp.test(value)) 
+                        setformFieldsObj((prev) => ({ ...prev, [name]: { ...prev[name], 'error': false } }))
+                    else {
+                        setformFieldsObj((prev) =>
+                            ({
+                                ...prev,
+                                [name]: {
+                                    ...prev[name],
+                                    'error': true,
+                                    'message': el.message
+                                }
+                            })
+                        )
+                    }
+                }
+            })
+        }
+        validation()
+    }
     useEffect(() => { //Reading from session Storage
         if (sessionStorage.getItem("checkoutFormData"))
             setformFieldsObj(JSON.parse(sessionStorage.getItem("checkoutFormData")))
@@ -153,98 +217,7 @@ const AddressForm = () => {
             })
             .catch((errors) => console.log(errors));
     }
-
-    const CustomField=({formFieldsObj, label, regExp})=>{
-        //const [val, setVal]= useState('')
-        const fieldName = label.replace(' ','_')
-        const [fieldObj, setFieldObj] = useState({
-            value: ''
-        })
-        
-
-        const handleFieldOnChangeField = (e) => {
-            const value = e.target.value;
-            setFieldObj((prev)=>({...prev, value}))
-            //setformFieldsObj((prev) => ({ ...prev, [fieldName]: { 'value': value } }))
-        }
-
-       /*  const fieldsOptions = [{
-            'fieldName': 'firstName',
-            'regExp': String.raw`^[\wżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$`,
-            'message': 'Please use only a-z, 0-1 and _.'
-        },
-        {
-            'fieldName': 'lastName',
-            'regExp': String.raw`^[\wżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$`,
-            'message': 'Please use only a-z, 0-1 and _.'
-        },
-        {
-            'fieldName': 'email',
-            'regExp': String.raw`^\w+(\.\w+)*@\w+(\.\w+)*$`,
-            'message': 'Please use valid email address format i.e. (xx@xx.xx)'
-        },
-        {
-            'fieldName': 'tel',
-            'regExp': String.raw`^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$`,
-            'message': 'Please use valid telephone number format, you can use digits, "(", ")", + and #'
-        },
-        {
-            'fieldName': 'postcode',
-            'regExp': String.raw`^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([AZa-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))[0-9][A-Za-z]{2})$`,
-            'message': 'Please use valid postcode format'
-        }]
-         */
-        const handleFieldOnBlur = (e) => {
-            const value = e.target.value
-           
-            const validation = function () {
-                const regEx = new RegExp(regExp);
-                if (regEx.test(value)) 
-                    setFieldObj((prev) => ({  ...prev, 'error': false }))
-                else {
-                    setFieldObj((prev) => ({  ...prev, 'error': true }))
-                } 
-            }
-            validation()
-        }
-
-        useEffect(()=>{ //Load data from sessionStorage
-            const localStorageObj = JSON.parse(sessionStorage.getItem("checkoutFormData"))
-            if (localStorageObj && localStorageObj[fieldName] !== undefined && localStorageObj[fieldName]!==''){
-                setFieldObj((prev)=>({...prev, value: localStorageObj[fieldName].value}))
-            }
-        },[])
-
-        /* useEffect(()=>{// Save field value to localStorage
-            const localStorageObj = JSON.parse(sessionStorage.getItem("checkoutFormData"))
-            let el;
-            el = localStorageObj ? localStorageObj[fieldName] : null;
-            const updatedLocalStorageObj ={...localStorageObj, [fieldName] : {...el, value:fieldObj.value} }
-c('fieldObj: ',fieldObj)
-            if(fieldObj) sessionStorage.setItem("checkoutFormData", JSON.stringify(updatedLocalStorageObj))
-            
-        },[fieldObj.value]) */
-
-        useEffect(()=>c('fieldObj: ',fieldObj))
-
-        return(
-            <TextField
-                value={fieldObj.value}
-                onChange={handleFieldOnChangeField}
-                onBlur={handleFieldOnBlur}
-                error={formFieldsObj.firstName ? formFieldsObj.firstName.error : false}
-                name='firstName'
-                type='text'
-                label="First name"
-                helperText={formFieldsObj.firstName ? formFieldsObj.firstName.message : null}
-                variant="outlined"
-                color='secondary'
-                fullWidth
-                margin='dense'
-                required />
-        )
-    }
-
+    
     return (
         <>
             <form className='checkout__addressForm'>
@@ -253,13 +226,7 @@ c('fieldObj: ',fieldObj)
                     <p className="checkout__addressForm__desc" >Please fill in your address details below. This information will be used for your delivery and payment</p>
                 </legend>
                 <p className='fieldRequired'> Field Required</p>
-                <CustomField
-                formFieldsObj={formFieldsObj}
-                regExp={String.raw`^[\wżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$`}
-               // handleFieldOnBlur={handleFieldOnBlur}
-                label='First Name'
-                />
-               {/*  <TextField
+                <TextField
                     value={formFieldsObj.firstName.value}
                     onChange={handleFieldOnChange}
                     onBlur={handleFieldOnBlur}
@@ -314,12 +281,12 @@ c('fieldObj: ',fieldObj)
                     color='secondary'
                     fullWidth
                     margin='dense' />
- */}
+
                 <legend className='checkout__addressForm__title'>Delivery Address:</legend>
                 {!chosenAddress &&
                     <div>
                         <legend className='checkout__addressForm__findAddressText'>Find Address by Postcode</legend>
-{/* 
+
                         <TextField
                             autoComplete='off'
                             onChange={(e) => setPostcodeInputValue(e.target.value)}
@@ -335,7 +302,7 @@ c('fieldObj: ',fieldObj)
                             fullWidth
                             margin='dense'
                             required />
- */}
+
                         <div className='checkout__addressForm__findPostcodeButton'>
                             <Button
                                 onClick={getAddress}
@@ -492,6 +459,25 @@ const Login = ({ name, setName }) => {
             if(emailObj.value!=='')
             sessionStorage.setItem("guestEmailObj", JSON.stringify(emailObj))
         },[emailObj])
+
+        const CustField = (props)=>{
+            const [val, setVal]= useState('')
+            return(
+                <>
+                    <TextField
+                    type='text'
+                    label={props.nazwa}
+                    value={val}
+                    onChange={(e) => setVal(e.target.value)}
+                    variant="outlined"
+                            color='secondary'
+                            fullWidth
+                            margin='dense'
+                    ></TextField>
+                </>
+            )
+        }
+
 
         return(
             <>

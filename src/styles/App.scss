@@ -8,6 +8,7 @@ html {
   min-width: 248px;
   font-size: 16px;
   color: #333333;
+  background-color: whitesmoke;
 }
 body {
   min-height: 100%;
@@ -35,7 +36,7 @@ content {
   flex: 1;
   width: 100%;
   margin: 0 auto;
-  background-color: #eee;
+  background-color: white;
 }
 .back-link{
   color: #287fd9;
@@ -44,3 +45,16 @@ content {
   cursor: pointer;
   text-decoration: underline;
 }
+.fieldRequired{
+  font-size: .8rem;
+  width: 100%;
+  padding: 10px;
+  &::before{
+    content: '* ';
+    color: red;
+  }
+}
+.buttContainter{
+  padding: 15px 0;
+}
+      

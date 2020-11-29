@@ -83,95 +83,97 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
   return (
     <>
       <Header basket={basket} />
-      {productObj.length === 0 && (
-        <Backdrop open={true} className={classes.backdrop}>
-          <CircularProgress color="inherit" />
+      <content>
+        {productObj.length === 0 && (
+          <Backdrop open={true} className={classes.backdrop}>
+            <CircularProgress color="inherit" />
           Loading...
-        </Backdrop>
-      )}
-      {productObj.length !== 0 && (
-        <div className='productCard'>
-          <p
-            className="back-link"
-            onClick={() => propsRoute.history.goBack()}
-          >
-            &#8592; Back to the list
+          </Backdrop>
+        )}
+        {productObj.length !== 0 && (
+          <div className='productCard'>
+            <p
+              className="back-link"
+              onClick={() => propsRoute.history.goBack()}
+            >
+              &#8592; Back to the list
           </p>
-          <Divider />
-          <p className="productCard__img-wrap">
-            <img src={productObj.image} alt="" />
-          </p>
+            <Divider />
+            <p className="productCard__img-wrap">
+              <img src={productObj.image} alt="" />
+            </p>
 
-          <h3>{productObj.title}</h3>
-          <span className="productCard__price">£{productObj.price.toFixed(2)}</span>
-          <div className='productCard__plusMinusInput-wrap'>
-            <PlusMinusInput
-              style={{ width: '200px' }}
-              value={quantity}
-              setQuantity={(newValue) => setQuantity(newValue)}
-            />
-          </div>
-          <Button
-            className={classes.button__root}
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={() => addToBasket(productObj)}
-          >
-            Add to basket
+            <h3>{productObj.title}</h3>
+            <span className="productCard__price">£{productObj.price.toFixed(2)}</span>
+            <div className='productCard__plusMinusInput-wrap'>
+              <PlusMinusInput
+                style={{ width: '200px' }}
+                value={quantity}
+                setQuantity={(newValue) => setQuantity(newValue)}
+              />
+            </div>
+            <Button
+              className={classes.button__root}
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={() => addToBasket(productObj)}
+            >
+              Add to basket
           </Button>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Description:</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>{productObj.description}</Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Review:</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>feature available soon...</Typography>
-            </AccordionDetails>
-          </Accordion>
-        </div>
-      )}
-      <Dialog
-        className={classes.dialog__root}
-        open={openDialog}
-      >
-        <div className="productCard__dialog__wrap">
-          <div className="productCard__dialog__img-wrap">
-            <img src={productObj.image} alt="img" />
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Description:</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>{productObj.description}</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Review:</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>feature available soon...</Typography>
+              </AccordionDetails>
+            </Accordion>
           </div>
-          <div className="productCard__dialog__text">
-            <h4>Added to the basket</h4>
-            <p className="productCard__dialog__desc">{productObj.title}</p>
-            <p className="productCard__dialog__quant">Quantity: {quantity}</p>
+        )}
+        <Dialog
+          className={classes.dialog__root}
+          open={openDialog}
+        >
+          <div className="productCard__dialog__wrap">
+            <div className="productCard__dialog__img-wrap">
+              <img src={productObj.image} alt="img" />
+            </div>
+            <div className="productCard__dialog__text">
+              <h4>Added to the basket</h4>
+              <p className="productCard__dialog__desc">{productObj.title}</p>
+              <p className="productCard__dialog__quant">Quantity: {quantity}</p>
+            </div>
           </div>
-        </div>
-        <Link to="/basket">
+          <Link to="/basket">
+            <Button
+              className={classes.dialogBut}
+              variant="contained"
+              color="primary"
+            >
+              go to the basket
+        </Button>
+          </Link>
+
           <Button
             className={classes.dialogBut}
             variant="contained"
-            color="primary"
+            color="secondary"
+            autoFocus
+            onClick={() => propsRoute.history.goBack()}
           >
-            go to the basket
+            Back to shopping
         </Button>
-        </Link>
-
-        <Button
-          className={classes.dialogBut}
-          variant="contained"
-          color="secondary"
-          autoFocus
-          onClick={() => propsRoute.history.goBack()}
-        >
-          Back to shopping
-        </Button>
-      </Dialog>
+        </Dialog>
+      </content>
       <Footer />
     </>
   );

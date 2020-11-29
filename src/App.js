@@ -6,12 +6,12 @@ import ProductsList from './pages/ProductsList'
 import ProductCard from './pages/ProductCard'
 import Basket from './pages/Basket'
 import Checkout from './pages/Checkout'
-import "./styles/App.css";
+import "./styles/App.scss";
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#67a509" 
+      main: "#67a509"
     },
     secondary: {
       main: "#0277bd"
