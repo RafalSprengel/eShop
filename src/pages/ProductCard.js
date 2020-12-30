@@ -14,6 +14,8 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import PlusMinusInput from "../components/PlusMinusInput";
+import { useDispatch } from 'react-redux';
+import { addToBasketAction } from '../actions/appActions'
 
 import "../styles/ProductCard.scss";
 
@@ -40,31 +42,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ProductCard = ({ propsRoute, basket, setBasket }) => {
+const ProductCard = ({ propsRoute }) => {
   const productId = propsRoute.match.params.id;
   const classes = useStyles();
   const [quantity, setQuantity] = useState(1);
   const [productObj, setProductObj] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch()
+
   const addToBasket = (currProdObj) => {
-    const prodAlrInBask = basket.find(
-      (prodObj) => prodObj.id === currProdObj.id
-    );
-    if (prodAlrInBask) {
-      let newQuantity = currProdObj.quantity
-        ? parseInt(currProdObj.quantity, 2) + quantity
-        : quantity;
-      setBasket((prevState) => {
-        const newPrevState = prevState.filter((el) => el.id !== currProdObj.id);
-        const prevQuantity = prevState.find((el) => el.id === currProdObj.id)
-          .quantity;
-        return [
-          ...newPrevState,
-          { ...currProdObj, quantity: prevQuantity + newQuantity }
-        ];
-      });
-    } else
-      setBasket((prevState) => [...prevState, { ...currProdObj, quantity }]);
+    dispatch(addToBasketAction({ ...currProdObj, quantity }))
     setOpenDialog(true);
   };
 
@@ -82,7 +69,7 @@ const ProductCard = ({ propsRoute, basket, setBasket }) => {
 
   return (
     <>
-      <Header basket={basket} />
+      <Header />
       <content>
         {productObj.length === 0 && (
           <Backdrop open={true} className={classes.backdrop}>

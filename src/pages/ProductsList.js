@@ -8,7 +8,6 @@ import '../styles/ProductsList.css'
 
 
 const useStyles = makeStyles((theme) => ({
-
     root: {
         '& > span': {
             display: 'flex',
@@ -32,7 +31,6 @@ const Product = ({ product }) => {
             <Link to={`/product/${product.id}`}>
                 <p className='title'>{product.title}</p>
             </Link>
-
             <p className='spacer'></p>
             <p className={classes.root}>
                 <Rating name="half-rating" value={stars} defaultValue={2.6} precision={0.5} size='small' readOnly />
@@ -42,10 +40,10 @@ const Product = ({ product }) => {
     )
 }
 
-const ProductsList = ({ basket, productsList }) => {
+const ProductsList = ({ productsList }) => {
     return (
         <>
-            <Header basket={basket} />
+            <Header />
             <content>
                 <div className='products'>
                     {(productsList && productsList.map(el =>

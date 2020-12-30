@@ -22,5 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#copies
-/pages/copies
+
+#others
+/basket-pomysly

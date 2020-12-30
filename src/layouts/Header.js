@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from 'react-redux'
 import logo from "../pics/logo.png";
 import Nav from "../components/Nav";
 import "../styles/Header.css";
@@ -11,9 +12,10 @@ import {
   faSearch
 } from "@fortawesome/free-solid-svg-icons";
 
-const Header = ({ basket }) => {
+const Header = () => {
   const [navVisible, setNavVisible] = useState(false);
   const handleNavVisible = (bool) => setNavVisible(bool);
+  const reduxBasket = useSelector(store => store.basket)
   return (
     <header>
       <div id="header-in-center">
@@ -24,7 +26,7 @@ const Header = ({ basket }) => {
           <div id="upper-header-blank"></div>
 
           <div id="shopping-cart-icon-wrap">
-            <div id="cart-counter">{basket.length}</div>
+            <div id="cart-counter">{reduxBasket.length}</div>
             <NavLink to='/basket'>
               <FontAwesomeIcon
                 icon={faShoppingCart}

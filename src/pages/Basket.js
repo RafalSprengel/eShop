@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
-import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import "../styles/Basket.scss";
@@ -15,6 +16,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { changeQuantity, removeFromBasket as reduxRemoveFromBasket } from '../actions/appActions'
 
 const useStyles = makeStyles((theme) => ({
   dialog__remove__wrap: {
@@ -29,59 +31,49 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SingleProduct = ({
-  basket,
-  setBasket,
-  currProdObj,
-  removeFromBasket,
-  chanProdQuantInBask
-}) => {
-  const [openRemConf, setOpenRemConf] = useState(false);
-  const setQuantity = (newQuantity) =>
-    chanProdQuantInBask(currProdObj, newQuantity);
-
-  const RemovingDialog = ({ basket, setBasket, currProdObj }) => {
-
-    const classes = useStyles();
-    const removeFromBasket = (currProdObj) => {
-      const updatedBasket = basket.filter((el) => el.id !== currProdObj.id);
-      setBasket(updatedBasket);
-    };
-
-    return (
-
-      <Dialog
-        open={openRemConf}
-        onClose={() => setOpenRemConf(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <div className={classes.dialog__remove__wrap}>
-          <DialogTitle id="alert-dialog-title" className={classes.dialog__remove__title}>
-            Delete item
-        </DialogTitle>
-          <DialogContent className={classes.dialog__remove__content}>
-            <DialogContentText id="alert-dialog-description">
-              Do you really want to remove this item from your basket ?
-          </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => removeFromBasket(currProdObj)} color="primary">
-              Confirm
-          </Button>
-            <Button
-              onClick={() => setOpenRemConf(false)}
-              color="primary"
-              autoFocus
-            >
-              Cancel
-          </Button>
-          </DialogActions>
-        </div>
-      </Dialog >
-
-    );
+const RemovingDialog = ({ currProdObj, setOpenRemConf, openRemConf }) => {
+  const classes = useStyles();
+  const dispatch = useDispatch()
+  const removeFromBasket = (currProdObj) => {
+    dispatch(reduxRemoveFromBasket(currProdObj.id))
   };
+  return (
+    <Dialog
+      open={openRemConf}
+      onClose={() => setOpenRemConf(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <div className={classes.dialog__remove__wrap}>
+        <DialogTitle id="alert-dialog-title" className={classes.dialog__remove__title}>
+          Delete item
+      </DialogTitle>
+        <DialogContent className={classes.dialog__remove__content}>
+          <DialogContentText id="alert-dialog-description">
+            Do you really want to remove this item from your basket ?
+        </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => removeFromBasket(currProdObj)} color="primary">
+            Confirm
+        </Button>
+          <Button
+            onClick={() => setOpenRemConf(false)}
+            color="primary"
+            autoFocus
+          >
+            Cancel
+        </Button>
+        </DialogActions>
+      </div>
+    </Dialog >
+  );
+};
+
+const SingleProduct = ({ currProdObj }) => {
+  const [openRemConf, setOpenRemConf] = useState(false);
+  const dispatch = useDispatch()
+  const setQuantity = (newQuantity) => dispatch(changeQuantity(currProdObj.id, newQuantity))
 
   return (
     <>
@@ -106,7 +98,6 @@ const SingleProduct = ({
             />
           </span>
           <span></span>
-
         </div>
         <div className='basket__product__calc'>
           <span className='basket__product__desc'>Item price :</span>
@@ -128,55 +119,55 @@ const SingleProduct = ({
       <RemovingDialog
         openRemConf={openRemConf}
         setOpenRemConf={setOpenRemConf}
-        basket={basket}
-        setBasket={setBasket}
         currProdObj={currProdObj}
       />
     </>
   );
 };
 
-const Basket = ({ basket, setBasket, chanProdQuantInBask, propsRoute }) => {
-  let prices = basket.map((el) => el.price * el.quantity)
-  let summaryPrice = (basket.length > 0) ? prices.reduce((total, curr) => total + curr) : 0;
+const Basket = () => {
+  const reduxBasket = useSelector(store => store.basket)
+  let prices = reduxBasket.map((el) => el.price * el.quantity)
+  let summaryPrice = (reduxBasket.length > 0) ? prices.reduce((total, curr) => total + curr) : 0;
   const history = useHistory()
 
-  const goToLoginPage = () => {
-    history.push({ pathname: '/checkout/login' })
+  const location = {
+    pathname: "/checkout/login",
+    state: { naszParrametr: 'dupa' }
   }
-
+  const goToLoginPage = () => {
+    history.push(location)
+  }
+  const goToMainPage = () => history.push({ pathname: '/' })
   return (
     <>
-      <Header basket={basket} />
+      <Header />
       <content>
-        {(basket.length > 0 &&
+        {(reduxBasket.length > 0 &&
           <div className="basket">
             <div className='basket__header'>
-              <p className="back-link" onClick={() => propsRoute.history.goBack()}>&#8592; back to shopping</p>
+              <p className="back-link" onClick={() => goToMainPage()}>&#8592; back to shopping</p>
               <h2>Your basket</h2>
-              <h4 className='basket__products-counter'>({basket.length} products)</h4>
+              <h4 className='basket__products-counter'>({reduxBasket.length} products)</h4>
             </div>
             <Divider />
             <div id="basket-products-list">
-              {basket.map((currProdObj) => (
+              {reduxBasket.map((currProdObj) => (
                 <div key={currProdObj.title}>
-                  <SingleProduct
-                    currProdObj={currProdObj}
-                    chanProdQuantInBask={chanProdQuantInBask}
-                    basket={basket}
-                    setBasket={setBasket}
-                  />
+                  <SingleProduct currProdObj={currProdObj} />
                 </div>
               ))}
             </div>
             <div className='basket__summary__wrap'>
               <div className='basket__summary__title'>
-                Subtotal ({basket.length} items):&nbsp;
+                Subtotal ({reduxBasket.length} items):&nbsp;
             <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
               </div>
-              <NavLink to='/checkout/login'>
-                <button className='basket__summary__button'>Proceed to Checkout</button>
-              </NavLink>
+              {/* <NavLink to='/checkout/login'> */}
+              <button
+                onClick={goToLoginPage}
+                className='basket__summary__button'>Proceed to Checkout</button>
+              {/* </NavLink> */}
             </div>
           </div>
         )}

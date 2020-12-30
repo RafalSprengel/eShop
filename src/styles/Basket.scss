@@ -92,16 +92,16 @@ h2, h4 {
             font-weight: bold;
         }
         &__button{
-            width: 80%;
             background-color: lightgoldenrodyellow;
             border: 1px solid #8e8e35;
-            padding: 6px 8px;
-            margin: 10px;
+            padding: 12px;
+            margin: 10px 0;
             font-size: 1rem;
             box-shadow: 0px 0px 5px -3px black;
             letter-spacing: 1px;
             font-weight: bold;
             border-radius: 7px;
+            cursor: pointer
         };
         &__price{
             color: #b60a0a;
