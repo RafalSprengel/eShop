@@ -95,7 +95,6 @@ function App() {
       .then((response) => setProductsList(response))
       .catch((errors) => console.log(errors));
   }, []);
-  console.log('process.env.PUBLIC_URL to : ', process.env.PUBLIC_URL)
   return (
 
     <ThemeProvider theme={theme}>
