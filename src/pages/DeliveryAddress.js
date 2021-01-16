@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
@@ -20,35 +21,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DeliveryAddress = () => {
-
-    const [formFieldsObj, setformFieldsObj] = useState('');
-    const [postcodeInputValue, setPostcodeInputValue] = useState('')
+    const [address1Val, setAddress1Val] = useState('')
+    const [address2Val, setAddress2Val] = useState('')
+    const [cityVal, setCityVal] = useState('')
+    const [postcodeVal, setPostcodeVal] = useState('')
     const [addressListTab, setAddressListTab] = useState('')
-    const [chosenAddress, setChosenAddress] = useState(null)
+    const [chosenAddress, setChosenAddress] = useState(false)
+    const [addressManually, setAddressManually] = useState(false)
+    const [errorsObj, setErrorsObj] = useState('')
     const classes = useStyles();
-    /*  const handleFieldOnChange = (e) => {
-         const { value, name } = e.target;
-         setformFieldsObj((prev) => ({ ...prev, [name]: { 'value': value } }))
-     } */
-
-
-    useEffect(() => { //Reading from session Storage
-        if (sessionStorage.getItem("checkoutFormData"))
-            setformFieldsObj(JSON.parse(sessionStorage.getItem("checkoutFormData")))
-
-        if (sessionStorage.getItem("chosenAddress"))
-            setChosenAddress(JSON.parse(sessionStorage.getItem("chosenAddress")))
-    }, [])
-
-    useEffect(() => { //Save to sessionStorage
-        if (formFieldsObj !== '' && JSON.stringify(formFieldsObj) !== sessionStorage.getItem("checkoutFormData"))
-            sessionStorage.setItem("checkoutFormData", JSON.stringify(formFieldsObj));
-    }, [formFieldsObj])
 
     const getAddress = () => {
         console.log('wykonuje get address')
-        if (postcodeInputValue.length < 4) return () => null
-        const URL = "https://api.addressian.co.uk/v2/autocomplete/" + postcodeInputValue;
+        if (postcodeVal.length < 4) return () => null
+        const URL = "https://api.addressian.co.uk/v2/autocomplete/" + postcodeVal;
         const options = {
             method: 'GET',
             headers: {
@@ -71,239 +57,186 @@ const DeliveryAddress = () => {
             .catch((errors) => console.log(errors));
     }
 
-    const CustomField = ({ formFieldsObj, label, regExp }) => {
-        const fieldName = label.replace(' ', '_')
-        const [fieldObj, setFieldObj] = useState({
-            value: ''
-        })
-
-        const handleFieldOnChangeField = (e) => {
-            const value = e.target.value;
-            setFieldObj((prev) => ({ ...prev, value }))
+    const validateAddress1 = () => {
+        const patt = /^[\w ]{2,}$/
+        if (!patt.test(address1Val)) {
+            setErrorsObj((prev) => ({
+                ...prev,
+                address1Val: "Invalid address format or field emty!"
+            }))
+            return false
+        } else {
+            setErrorsObj((prev) => ({ ...prev, address1Val: '' }))
+            return true
         }
-
-        const handleFieldOnBlur = (e) => {
-            const value = e.target.value
-
-            const validation = function () {
-                const regEx = new RegExp(regExp);
-                if (regEx.test(value))
-                    setFieldObj((prev) => ({ ...prev, 'error': false }))
-                else {
-                    setFieldObj((prev) => ({ ...prev, 'error': true }))
-                }
-            }
-            validation()
-        }
-
-        useEffect(() => { //Load data from sessionStorage
-            const localStorageObj = JSON.parse(sessionStorage.getItem("checkoutFormData"))
-            if (localStorageObj && localStorageObj[fieldName] !== undefined && localStorageObj[fieldName] !== '') {
-                setFieldObj((prev) => ({ ...prev, value: localStorageObj[fieldName].value }))
-            }
-        }, [])
-
-        return (
-            <TextField
-                value={fieldObj.value}
-                onChange={handleFieldOnChangeField}
-                onBlur={handleFieldOnBlur}
-                error={formFieldsObj.firstName ? formFieldsObj.firstName.error : false}
-                name='firstName'
-                type='text'
-                label="First name"
-                helperText={formFieldsObj.firstName ? formFieldsObj.firstName.message : null}
-                variant="outlined"
-                color='secondary'
-                fullWidth
-                margin='dense'
-                required />
-        )
     }
+
+    const validateAddress2 = () => {
+        const patt = /^[\w ]{2,}$/
+        if (!patt.test(address2Val)) {
+            setErrorsObj((prev) => ({
+                ...prev,
+                address2Val: "Invalid address format or field emty!"
+            }))
+            return false
+        } else {
+            setErrorsObj((prev) => ({ ...prev, address2Val: '' }))
+            return true
+        }
+    }
+
+    /*  const handleSubmit = (e) => {
+         e.preventDefault()
+         if (valdateName(firstNameVal, 'first_name') && valdateName(surnameVal, 'surname') && validateEmail() && validateMobilePhone())
+             history.push({ pathname: '/checkout/delivery-address' })
+         else return
+ 
+     } */
+
+    useEffect(() => {
+        if (address1Val || address2Val || cityVal || postcodeVal) {
+            const deliveryAddressDetails = { address1Val, address2Val, cityVal, postcodeVal }
+            localStorage.setItem("deliveryAddressDetails", JSON.stringify(deliveryAddressDetails))
+        }
+    }, [address1Val, address2Val, cityVal, postcodeVal])
+
+    useEffect(() => {
+        const deliveryAddressDetails = JSON.parse(localStorage.getItem("deliveryAddressDetails"))
+        if (deliveryAddressDetails) {
+            setAddress1Val(deliveryAddressDetails.address1Val)
+            setAddress2Val(deliveryAddressDetails.address2Val)
+            setCityVal(deliveryAddressDetails.postcodeVal)
+            setPostcodeVal(deliveryAddressDetails.postcodeVal)
+        }
+    }, [])
 
     return (
         <>
             <form className='checkout__addressForm'>
-                <legend>
-                    <p className="checkout__addressForm__title">Your details:</p>
-                    <p className="checkout__addressForm__desc" >Please fill in your address details below. This information will be used for your delivery and payment</p>
-                </legend>
-                <p className='fieldRequired'> Field Required</p>
-                <CustomField
-                    formFieldsObj={formFieldsObj}
-                    regExp={String.raw`^[\wżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$`}
-                    // handleFieldOnBlur={handleFieldOnBlur}
-                    label='First Name'
-                />
-                {/*  <TextField
-                    value={formFieldsObj.firstName.value}
-                    onChange={handleFieldOnChange}
-                    onBlur={handleFieldOnBlur}
-                    error={formFieldsObj.firstName ? formFieldsObj.firstName.error : false}
-                    name='firstName'
-                    type='text'
-                    label="First name"
-                    helperText={formFieldsObj.firstName ? formFieldsObj.firstName.message : null}
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense'
-                    required />
-                <TextField
-                    value={formFieldsObj.lastName.value}
-                    onChange={handleFieldOnChange}
-                    onBlur={handleFieldOnBlur}
-                    error={formFieldsObj.lastName ? formFieldsObj.lastName.error : false}
-                    helperText={formFieldsObj.lastName ? formFieldsObj.lastName.message : null}
-                    name='lastName'
-                    type='text'
-                    label="Last name"
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense'
-                    required />
-                <TextField
-                    value={formFieldsObj.email.value}
-                    onChange={handleFieldOnChange}
-                    onBlur={handleFieldOnBlur}
-                    helperText={formFieldsObj.email ? formFieldsObj.email.message : ''}
-                    error={formFieldsObj.email ? formFieldsObj.email.error : false}
-                    name='email'
-                    type='text'
-                    label="Email"
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense'
-                    required />
-                <TextField
-                    value={formFieldsObj.tel.value}
-                    onChange={handleFieldOnChange}
-                    onBlur={handleFieldOnBlur}
-                    helperText={formFieldsObj.tel ? formFieldsObj.tel.message : ''}
-                    error={formFieldsObj.tel ? formFieldsObj.tel.error : false}
-                    name='tel'
-                    type='text'
-                    label="Telephone"
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense' />
- */}
                 <legend className='checkout__addressForm__title'>Delivery Address:</legend>
-                {!chosenAddress &&
-                    <div>
-                        <legend className='checkout__addressForm__findAddressText'>Find Address by Postcode</legend>
+                {!chosenAddress && !addressManually &&
+                    <>
+                        <p className='fieldRequired'> Field Required</p>
+                        <div>
+                            <legend className='checkout__addressForm__findAddressText'>Find Address by Postcode</legend>
 
-                        <TextField
-                            autoComplete='off'
-                            onChange={(e) => setPostcodeInputValue(e.target.value)}
-                            //onBlur={handleFieldOnBlur}
-                            helperText={formFieldsObj.postcode ? formFieldsObj.postcode.message : ''}
-                            error={formFieldsObj.postcode ? formFieldsObj.postcode.error : false}
-                            value={postcodeInputValue}
-                            name='postcode'
-                            type='text'
-                            label="Postcode"
-                            variant="outlined"
-                            color='secondary'
-                            fullWidth
-                            margin='dense'
-                            required />
-
-                        <div className='checkout__addressForm__findPostcodeButton'>
-                            <Button
-                                onClick={getAddress}
+                            <TextField
+                                autoComplete='off'
+                                onChange={(e) => setPostcodeVal(e.target.value)}
+                                //onBlur={handleFieldOnBlur}
+                                helperText={null}
+                                error={null}
+                                value={postcodeVal}
+                                name='postcode'
+                                type='text'
+                                label="Postcode"
                                 variant="outlined"
-                                color="primary"
+                                color='secondary'
                                 fullWidth
-                            >Find Address
-                </Button>
-                        </div>
-                        {addressListTab && //addressListTab
-                            <List className={classes.root}>
-                                {addressListTab.map((el, index) => (
-                                    <ListItem
-                                        key={index}
-                                        onClick={() => {
-                                            setChosenAddress(el)
-                                            sessionStorage.setItem("chosenAddress", JSON.stringify(el));
-                                        }}
-                                        className={classes.listItem}>
-                                        {el.postcode}, {el.address.join(', ')}
-                                    </ListItem>))}
-                            </List>
-                        }
-                        <div>Edit address manually</div>
-                    </div>
+                                margin='dense'
+                                required />
 
+                            <div className='checkout__addressForm__findPostcodeButton'>
+                                <Button
+                                    onClick={getAddress}
+                                    variant="outlined"
+                                    color="primary"
+                                    fullWidth
+                                >Find Address
+                                </Button>
+                            </div>
+                            {addressListTab && //addressListTab
+                                <List className={classes.root}>
+                                    {addressListTab.map((el, index) => (
+                                        <ListItem
+                                            key={index}
+                                            onClick={() => {
+                                                setChosenAddress(el)
+                                                localStorage.setItem("chosenAddress", JSON.stringify(el));
+                                            }}
+                                            className={classes.listItem}>
+                                            {el.postcode}, {el.address.join(', ')}
+                                        </ListItem>))}
+                                </List>
+                            }
+                            <div className='link-style' onClick={() => setAddressManually(true)}>Edit address manually</div>
+                        </div>
+                    </>
                 }
-                {chosenAddress &&
+                {chosenAddress && !addressManually &&
                     <>
                         <div>
                             <div>{chosenAddress.address.map((el, index) => <p key={index}>{el}</p>)}</div>
                             <div>{chosenAddress.city}</div>
                             <div>{chosenAddress.postcode}</div>
                         </div>
-                        <p className='checkout__addressForm__removeAddress' onClick={() => { setChosenAddress(null); sessionStorage.removeItem("chosenAddress") }}>Remove Address</p>
+                        <p className='checkout__addressForm__changeAddress' onClick={() => { setChosenAddress(null); localStorage.removeItem("chosenAddress") }}>Remove Address</p>
                     </>
-
+                }
+                {addressManually &&
+                    <>
+                        <TextField
+                            value={address1Val}
+                            onChange={(e) => setAddress1Val(e.target.value)}
+                            onBlur={validateAddress1}
+                            error={Boolean(errorsObj.address1Val)}
+                            helperText={errorsObj.address1Val}
+                            name='address1'
+                            type='text'
+                            label="Address Line 1"
+                            variant="outlined"
+                            color='secondary'
+                            fullWidth
+                            margin='dense'
+                            required />
+                        <TextField
+                            value={address2Val}
+                            onChange={(e) => setAddress2Val(e.target.value)}
+                            error={Boolean(errorsObj.address2Val)}
+                            helperText={errorsObj.address2Val}
+                            name='address2'
+                            type='text'
+                            label="Address Line 2"
+                            variant="outlined"
+                            color='secondary'
+                            fullWidth
+                            margin='dense'
+                            required />
+                        <TextField
+                            value={cityVal}
+                            onChange={(e) => setCityVal(e.target.value)}
+                            name='city'
+                            type='text'
+                            label="Town/City"
+                            variant="outlined"
+                            color='secondary'
+                            fullWidth
+                            margin='dense' />
+                        <TextField
+                            value={postcodeVal}
+                            onChange={(e) => setPostcodeVal(e.target.value)}
+                            name='postcode'
+                            type='text'
+                            label="Postcode"
+                            variant="outlined"
+                            color='secondary'
+                            fullWidth
+                            margin='dense' />
+                        <div className='link-style' onClick={() => setAddressManually(false)}>Use address Finder</div>
+                    </>
                 }
 
-                {/* <TextField
-                    value={formFieldsObj.city ? formFieldsObj.city.value : ''}
-                    onChange={handleFieldOnChange}
-                    name='city'
-                    type='text'
-                    label="City"
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense'
-                    required />
-                <TextField
-                    value={formFieldsObj.firstLineAddress ? formFieldsObj.firstLineAddress.value : ''}
-                    onChange={handleFieldOnChange}
-                    name='firstLineAddress'
-                    type='text'
-                    label="Frst line address"
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense'
-                    required />
-                <TextField
-                    value={formFieldsObj.secLineAddress ? formFieldsObj.secLineAddress.value : ''}
-                    onChange={handleFieldOnChange}
-                    name='secLineAddress'
-                    type='text'
-                    label="Second line address"
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense' />
-                <TextField
-                    value={formFieldsObj.thirdLineAddress ? formFieldsObj.thirdLineAddress.value : ''}
-                    onChange={handleFieldOnChange}
-                    name='thirdLineAddress'
-                    type='text'
-                    label="Third line address"
-                    variant="outlined"
-                    color='secondary'
-                    fullWidth
-                    margin='dense' /> */}
+                <div >
+                    <Link to='/checkout/payment' >
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                        >Continue
+                            </Button>
+                    </Link>
+                </div>
             </form>
-            <div >
-                <Link to='/checkout/payment' >
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                    >Continue
-                </Button>
-                </Link>
-            </div>
         </>
     )
 }

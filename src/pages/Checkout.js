@@ -5,11 +5,14 @@ import Login from '../pages/Login'
 import DeliveryAddress from './DeliveryAddress'
 import Payment from '../pages/Payment'
 import logo from '../pics/logo.png'
+import Footer from '../layouts/Footer'
 import '../styles/checkout.scss'
 import '../styles/customRadio.scss'
 
 const Checkout = () => {
     const [name, setName] = useState('');
+    const [checkoutObj, setCheckoutData] = useState('')
+    const [step, setStep] = useState(2)
 
     return (
         <div className='checkout'>
@@ -25,7 +28,9 @@ const Checkout = () => {
                 </div>
             </header>
             <content>
-                <Stepper />
+                <div className='stepper_wrap'>
+                    <Stepper />
+                </div>
                 <div className='checkout__content'>
                     <Switch>
                         <Route path='/checkout/login' render={() => <Login name={name} setName={setName} />} />
@@ -34,10 +39,13 @@ const Checkout = () => {
                         <Route render={() => 'Page doesen`t exists(/checkout)'} />
                     </Switch>
                 </div>
+                <div
+                    className='link-style'
+                    style={{ marginLeft: '10px' }}
+                    onClick={() => window.history.go(-1)}
+                >&#8592; Go Back</div>
             </content>
-            <footer className='checkout__footer'>
-                to jest footer
-            </footer>
+            <Footer />
         </div>
     )
 }

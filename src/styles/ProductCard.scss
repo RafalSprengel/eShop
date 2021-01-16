@@ -1,5 +1,6 @@
 .productCard{
   padding: 20px;
+  min-width: 96px;
   &__back-link{
     color: #287fd9;
     padding-top: 10px;
@@ -15,10 +16,13 @@
       object-fit: contain;
     }
   }
+  &__title{
+    margin: 10px;
+  }
   &__price{
     text-align: center;
     display: block;
-    margin: 15px 0;
+    margin: 10px;
     font-weight: 800;
     font-size: 2rem;
   }
@@ -48,6 +52,11 @@
     }
   }
   &__plusMinusInput-wrap{
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
     }
+  &__accordions{
+    margin: 10px;
+  }
 }

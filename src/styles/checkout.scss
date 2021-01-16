@@ -1,4 +1,7 @@
 .checkout{
+  display:flex;
+  flex-direction: column;
+  height : 100%;
   &__header{
     display: flex;
     width: 100%;
@@ -6,7 +9,6 @@
     align-items: center;
     height: 75px;
     color: white;
-
     &__logo{
         flex-basis: 100px;
         &__img{
@@ -22,58 +24,10 @@
     }
   } ;
 
-  &__stepper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: .9rem;
-    border-bottom: 1px solid silver;
-    &__steps{
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      padding: 10px;
-    }
-    &__step{
-      flex: 1 1;
-      display: flex;
-      align-items: center;
-      min-width: 60px;
-      padding: 2px;
-      color: #9b9999;
-      &__number{
-        display: inline-block;
-        margin-right: 5px;
-        min-width: 18px;
-        height: 18px;
-        text-align: center;
-        line-height: 1.1; 
-        border: 1px solid #9b9999;
-        border-radius: 50%;
-        position: relative;
-      };
-      & a:visited{
-        color: inherit;
-      }
-      &--active{
-        & span:first-child{
-          color:white;
-          background-color: #333;
-        };
-        & span:nth-child(2){
-          font-weight: 700;
-          color: #333;
-        }
-      }
-    }
-  }
+  
 &__content{
   padding: 0 20px;
 }
-  &__footer{
-    height: 60px;
-  }
-
   &__radios{
     padding: 20px 0;
   };
@@ -97,15 +51,11 @@
     }
   };
   &__addressForm{
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     &__title{
       font-size: 1.3rem;
       font-weight: 500;
       padding: 15px 0;
-    }
-    &__desc{
-      font-size: 1rem;
-      padding: 0 10px 10px;
     }
     &__findAddressText{
       width: 100%;;
@@ -118,7 +68,7 @@
       width: 50%;
       margin: 15px auto;
     }
-    &__removeAddress{
+    &__changeAddress{
       color: blue;
       text-decoration: underline;
       margin: 10px 0;

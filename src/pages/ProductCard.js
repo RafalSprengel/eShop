@@ -22,7 +22,6 @@ import "../styles/ProductCard.scss";
 const useStyles = makeStyles((theme) => ({
   button__root: {
     height: "40px",
-    marginBottom: "13px"
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -80,7 +79,7 @@ const ProductCard = ({ propsRoute }) => {
         {productObj.length !== 0 && (
           <div className='productCard'>
             <p
-              className="back-link"
+              className="link-style"
               onClick={() => propsRoute.history.goBack()}
             >
               &#8592; Back to the list
@@ -90,7 +89,7 @@ const ProductCard = ({ propsRoute }) => {
               <img src={productObj.image} alt="" />
             </p>
 
-            <h3>{productObj.title}</h3>
+            <h3 className='productCard__title'>{productObj.title}</h3>
             <span className="productCard__price">£{productObj.price.toFixed(2)}</span>
             <div className='productCard__plusMinusInput-wrap'>
               <PlusMinusInput
@@ -108,22 +107,24 @@ const ProductCard = ({ propsRoute }) => {
             >
               Add to basket
           </Button>
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Description:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>{productObj.description}</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Review:</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>feature available soon...</Typography>
-              </AccordionDetails>
-            </Accordion>
+            <div className='productCard__accordions'>
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Description:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>{productObj.description}</Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Review:</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>feature available soon...</Typography>
+                </AccordionDetails>
+              </Accordion>
+            </div>
           </div>
         )}
         <Dialog
