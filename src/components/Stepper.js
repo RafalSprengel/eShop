@@ -6,7 +6,9 @@ const Step = ({ index, el }) => {
     return (
         <NavLink
             onClick={(e) => e.preventDefault()}
-            className='stepper__step' to={`/checkout/${el.toLowerCase().replace(' ', '-')}`} activeClassName='stepper__step--active' >
+            className='stepper__step' to={`/checkout/${el.toLowerCase().replace(' ', '-')}`}
+            activeClassName='stepper__step--active'
+        >
             <span className='stepper__step__number'>{(index + 1)}</span>
             <span className='stepper__step__text'>{el}</span>
         </NavLink>

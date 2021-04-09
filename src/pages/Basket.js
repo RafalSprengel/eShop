@@ -142,7 +142,7 @@ const Basket = () => {
   return (
     <>
       <Header />
-      <content>
+      <main>
         {(reduxBasket.length > 0 &&
           <div className="basket">
             <div className='basket__header'>
@@ -171,7 +171,7 @@ const Basket = () => {
             </div>
           </div>
         )}
-      </content>
+      </main>
       <Footer />
     </>
   );

@@ -9,15 +9,7 @@ const LoginForm = () => {
     const [pass, setPass] = useState('');
     const [showPass, setShowPass] = useState(false)
 
-    const chandleEmail = (e) => {
-        const email = e.target.value
-        setEmail(email)
-    }
-    const chandlePass = (e) => {
-        const email = e.target.value;
-        setPass(email)
-    }
-    const chandleShowPass = () => {
+    const toggleShowPass = () => {
         setShowPass(!showPass)
     }
     useEffect(() => {
@@ -33,15 +25,15 @@ const LoginForm = () => {
         <>
             <form className='checkout__loginForm'>
                 <div className='checkout__loginForm__input' >
-                    <TextField value={email} onChange={chandleEmail} label="Email" variant="outlined" color='secondary' fullWidth margin='dense' required size='small' />
+                    <TextField value={email} onChange={(e) => setEmail(e.target.value)} label="Email" variant="outlined" color='secondary' fullWidth margin='dense' required size='small' />
                 </div>
                 <div className='checkout__loginForm__input' >
-                    <TextField value={pass} onChange={chandlePass} type={showPass ? 'text' : 'password'} label="Password" variant="outlined" color='secondary' fullWidth margin='dense' required />
+                    <TextField value={pass} onChange={(e) => setPass(e.target.value)} type={showPass ? 'text' : 'password'} label="Password" variant="outlined" color='secondary' fullWidth margin='dense' required />
                 </div>
                 <span className='fieldRequired'>Field Required</span>
                 <div className='checkout__loginForm__switchBut'>
                     <FormControlLabel
-                        control={<SwitchBut checked={showPass} onChange={chandleShowPass} />}
+                        control={<SwitchBut checked={showPass} onChange={toggleShowPass} />}
                         label="Show password"
                     />
                 </div>
@@ -51,6 +43,7 @@ const LoginForm = () => {
                         variant="contained"
                         color="primary"
                         fullWidth
+                        onClick={() => alert('Feature available soon... :)')}
                     >Continue
                     </Button>
                 </div>

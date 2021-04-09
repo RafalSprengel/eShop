@@ -44,13 +44,13 @@ const ProductsList = ({ productsList }) => {
     return (
         <>
             <Header />
-            <content>
+            <main>
                 <div className='products'>
                     {(productsList && productsList.map(el =>
                         <Product product={el} key={el.id} />
                     ))}
                 </div>
-            </content>
+            </main>
 
             <Footer />
         </>

@@ -74,7 +74,6 @@ const GuestForm = () => {
         if (valdateName(firstNameVal, 'first_name') && valdateName(surnameVal, 'surname') && validateEmail() && validateMobilePhone())
             history.push({ pathname: '/checkout/delivery-address' })
         else return
-
     }
 
     useEffect(() => {

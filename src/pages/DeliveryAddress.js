@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,6 +30,8 @@ const DeliveryAddress = () => {
     const [addressManually, setAddressManually] = useState(false)
     const [errorsObj, setErrorsObj] = useState('')
     const classes = useStyles();
+
+    const history = useHistory()
 
     const getAddress = () => {
         console.log('wykonuje get address')
@@ -62,25 +64,53 @@ const DeliveryAddress = () => {
         if (!patt.test(address1Val)) {
             setErrorsObj((prev) => ({
                 ...prev,
-                address1Val: "Invalid address format or field emty!"
+                address1: "Invalid address format or field emty!"
             }))
             return false
         } else {
-            setErrorsObj((prev) => ({ ...prev, address1Val: '' }))
+            setErrorsObj((prev) => ({ ...prev, address1: '' }))
             return true
         }
     }
 
     const validateAddress2 = () => {
-        const patt = /^[\w ]{2,}$/
+        const patt = /^[\w ]*$/
         if (!patt.test(address2Val)) {
             setErrorsObj((prev) => ({
                 ...prev,
-                address2Val: "Invalid address format or field emty!"
+                address2: "Invalid address format!"
             }))
             return false
         } else {
-            setErrorsObj((prev) => ({ ...prev, address2Val: '' }))
+            setErrorsObj((prev) => ({ ...prev, address2: '' }))
+            return true
+        }
+    }
+
+    const validateCity = () => {
+        const patt = /^[A-Za-z ]{2,}$/
+        if (!patt.test(cityVal)) {
+            setErrorsObj((prev) => ({
+                ...prev,
+                city: "Invalid address format or field emty!"
+            }))
+            return false
+        } else {
+            setErrorsObj((prev) => ({ ...prev, city: '' }))
+            return true
+        }
+    }
+
+    const validatePostcode = () => {
+        const patt = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i
+        if (!patt.test(postcodeVal)) {
+            setErrorsObj((prev) => ({
+                ...prev,
+                postcode: "Invalid Postcode"
+            }))
+            return false
+        } else {
+            setErrorsObj((prev) => ({ ...prev, postcode: '' }))
             return true
         }
     }
@@ -92,6 +122,14 @@ const DeliveryAddress = () => {
          else return
  
      } */
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (validateAddress1() && validateCity() && validatePostcode())
+            history.push({ pathname: '/checkout/payment-details' })
+        else return
+        //'/checkout/payment'
+    }
 
     useEffect(() => {
         if (address1Val || address2Val || cityVal || postcodeVal) {
@@ -105,14 +143,14 @@ const DeliveryAddress = () => {
         if (deliveryAddressDetails) {
             setAddress1Val(deliveryAddressDetails.address1Val)
             setAddress2Val(deliveryAddressDetails.address2Val)
-            setCityVal(deliveryAddressDetails.postcodeVal)
+            setCityVal(deliveryAddressDetails.cityVal)
             setPostcodeVal(deliveryAddressDetails.postcodeVal)
         }
     }, [])
 
     return (
         <>
-            <form className='checkout__addressForm'>
+            <form className='checkout__addressForm' onSubmit={handleSubmit}>
                 <legend className='checkout__addressForm__title'>Delivery Address:</legend>
                 {!chosenAddress && !addressManually &&
                     <>
@@ -179,8 +217,8 @@ const DeliveryAddress = () => {
                             value={address1Val}
                             onChange={(e) => setAddress1Val(e.target.value)}
                             onBlur={validateAddress1}
-                            error={Boolean(errorsObj.address1Val)}
-                            helperText={errorsObj.address1Val}
+                            error={Boolean(errorsObj.address1)}
+                            helperText={errorsObj.address1}
                             name='address1'
                             type='text'
                             label="Address Line 1"
@@ -188,12 +226,13 @@ const DeliveryAddress = () => {
                             color='secondary'
                             fullWidth
                             margin='dense'
-                            required />
+                        />
                         <TextField
                             value={address2Val}
                             onChange={(e) => setAddress2Val(e.target.value)}
-                            error={Boolean(errorsObj.address2Val)}
-                            helperText={errorsObj.address2Val}
+                            onBlur={validateAddress2}
+                            error={Boolean(errorsObj.address2)}
+                            helperText={errorsObj.address2}
                             name='address2'
                             type='text'
                             label="Address Line 2"
@@ -201,10 +240,13 @@ const DeliveryAddress = () => {
                             color='secondary'
                             fullWidth
                             margin='dense'
-                            required />
+                        />
                         <TextField
                             value={cityVal}
                             onChange={(e) => setCityVal(e.target.value)}
+                            onBlur={validateCity}
+                            error={Boolean(errorsObj.city)}
+                            helperText={errorsObj.city}
                             name='city'
                             type='text'
                             label="Town/City"
@@ -215,6 +257,9 @@ const DeliveryAddress = () => {
                         <TextField
                             value={postcodeVal}
                             onChange={(e) => setPostcodeVal(e.target.value)}
+                            onBlur={validatePostcode}
+                            error={Boolean(errorsObj.postcode)}
+                            helperText={errorsObj.postcode}
                             name='postcode'
                             type='text'
                             label="Postcode"
@@ -227,14 +272,13 @@ const DeliveryAddress = () => {
                 }
 
                 <div >
-                    <Link to='/checkout/payment' >
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                        >Continue
+                    <Button
+                        type='submit'
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                    >Continue
                             </Button>
-                    </Link>
                 </div>
             </form>
         </>

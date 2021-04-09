@@ -4,6 +4,7 @@ import Stepper from '../components/Stepper'
 import Login from '../pages/Login'
 import DeliveryAddress from './DeliveryAddress'
 import Payment from '../pages/Payment'
+import Summary from '../pages/Summary'
 import logo from '../pics/logo.png'
 import Footer from '../layouts/Footer'
 import '../styles/checkout.scss'
@@ -35,7 +36,8 @@ const Checkout = () => {
                     <Switch>
                         <Route path='/checkout/login' render={() => <Login name={name} setName={setName} />} />
                         <Route path='/checkout/delivery-address' exact render={() => <DeliveryAddress />} />
-                        <Route path='/checkout/payment' exact render={() => <Payment />} />
+                        <Route path='/checkout/payment-details' exact render={() => <Payment />} />
+                        <Route path='/checkout/summary' exact render={() => <Summary />} />
                         <Route render={() => 'Page doesen`t exists(/checkout)'} />
                     </Switch>
                 </div>
