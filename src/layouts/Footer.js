@@ -6,7 +6,8 @@ const Footer = () => {
   ;
   useEffect(() => {
     let delay = 5000; //in milliseconds
-    if ((parseInt(window.localStorage.getItem('visit_time')) + delay) < Date.now()) { //when time expired
+    if (!(window.localStorage.getItem('visit_time')) || (parseInt(window.localStorage.getItem('visit_time')) + delay) < Date.now()) { //when time expired
+      console.log('wykonuje if');
       window.localStorage.setItem('visit_time', Date.now());
       const API = "https://annoying-racks.000webhostapp.com?setvisit=eShop"
       fetch(API)
@@ -15,7 +16,7 @@ const Footer = () => {
           else throw Error(response.statusText)
         })
         .catch((errors) => console.log(errors))
-    };
+    }
     const API = "https://annoying-racks.000webhostapp.com?getvisits=eShop"
     fetch(API)
       .then((response) => {
