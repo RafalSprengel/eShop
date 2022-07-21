@@ -77,10 +77,28 @@ const basketData = [
 ];
 
 function App() {
+
   const dispatch = useDispatch()
-  useEffect(() => {
-    basketData.map((el) => dispatch(addToBasketAction(el)))
-  }, [])
+
+  const getProductData = (productId, quantity) => {
+    console.log("quantity to : " + quantity)
+    const API = "https://fakestoreapi.com/products/" + productId;
+    fetch(API)
+      .then((response) => {
+        if (response.ok) return response;
+        else throw Error(response.statusText);
+      })
+      .then((response) => response.json())
+      .then((response) => dispatch(addToBasketAction({ ...response, quantity })))
+      .catch((errors) => console.log(errors));
+  };
+
+  basketData.map((el) => { console.table("el: " + el.quantity); getProductData(el.id, el.quantity) });
+
+
+  // useEffect(() => {
+  //   basketData.map((el) => dispatch(addToBasketAction(el)))
+  // }, [])
 
   const [productsList, setProductsList] = useState("");
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -47,23 +48,23 @@ const RemovingDialog = ({ currProdObj, setOpenRemConf, openRemConf }) => {
       <div className={classes.dialog__remove__wrap}>
         <DialogTitle id="alert-dialog-title" className={classes.dialog__remove__title}>
           Delete item
-      </DialogTitle>
+        </DialogTitle>
         <DialogContent className={classes.dialog__remove__content}>
           <DialogContentText id="alert-dialog-description">
             Do you really want to remove this item from your basket ?
-        </DialogContentText>
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => removeFromBasket(currProdObj)} color="primary">
             Confirm
-        </Button>
+          </Button>
           <Button
             onClick={() => setOpenRemConf(false)}
             color="primary"
             autoFocus
           >
             Cancel
-        </Button>
+          </Button>
         </DialogActions>
       </div>
     </Dialog >
@@ -83,12 +84,14 @@ const SingleProduct = ({ currProdObj }) => {
             <img src={currProdObj.image} alt="pic" />
           </div>
           <div className='basket__product__title-wrap'>
-            <p>{currProdObj.title}</p>
+            <Link to={`/product/${currProdObj.id}`}>
+              <p>{currProdObj.title}</p>
+            </Link>
             <p className='basket_product__code'>Product code: {currProdObj.id}</p>
           </div>
         </div>
         <div className='basket__product__calc'>
-          <span className='basket__product__quantity basket__product__desc'>Quantity:</span>
+          <span className='basket__product__quantity basket__product__desc'>Quantity:&nbsp;</span>
           <span>
             <PlusMinusInput
               value={currProdObj.quantity}
@@ -109,10 +112,12 @@ const SingleProduct = ({ currProdObj }) => {
           <span className='basket__product__price'>£{(currProdObj.quantity * currProdObj.price).toFixed(2)}</span>
 
           <span className='basket__product__bin'>
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              onClick={() => setOpenRemConf(true)}
-            />
+            <span className='basket__product__bin__icon-container'>
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                onClick={() => setOpenRemConf(true)}
+              />
+            </span>
           </span>
         </div>
       </div>
@@ -126,7 +131,24 @@ const SingleProduct = ({ currProdObj }) => {
 };
 
 const Basket = () => {
-  const reduxBasket = useSelector(store => store.basket)
+
+  const reduxBasket = useSelector(store => store.basket);
+  const [clientBasket, setClientBasket] = useState();
+  const [basketData, setBasketData] = useState();
+
+  // useEffect(() => {
+  //   const API = "https://fakestoreapi.com/products?limit=999";
+  //   fetch(API)
+  //     .then((response) => {
+  //       if (response.ok) return response;
+  //       else throw Error(response.statusText);
+  //     })
+  //     .then((response) => response.json())
+  //     .then((response) => setProductsList(response))
+  //     .catch((errors) => console.log(errors));
+  // }, []);
+
+
   let prices = reduxBasket.map((el) => el.price * el.quantity)
   let summaryPrice = (reduxBasket.length > 0) ? prices.reduce((total, curr) => total + curr) : 0;
   const history = useHistory()
@@ -138,7 +160,8 @@ const Basket = () => {
   const goToLoginPage = () => {
     history.push(location)
   }
-  const goToMainPage = () => history.push({ pathname: '/' })
+  const goToMainPage = () => history.push({ pathname: '/' });
+  console.table(reduxBasket);
   return (
     <>
       <Header />
@@ -152,16 +175,16 @@ const Basket = () => {
             </div>
             <Divider />
             <div id="basket-products-list">
-              {reduxBasket.map((currProdObj) => (
-                <div key={currProdObj.title}>
-                  <SingleProduct currProdObj={currProdObj} />
+              {reduxBasket.map((el) => (
+                <div key={el.title}>
+                  <SingleProduct currProdObj={el} />
                 </div>
               ))}
             </div>
             <div className='basket__summary__wrap'>
               <div className='basket__summary__title'>
                 Subtotal ({reduxBasket.length} items):&nbsp;
-            <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
+                <span className='basket__summary__price'>£{summaryPrice.toFixed(2)}</span>
               </div>
               {/* <NavLink to='/checkout/login'> */}
               <button

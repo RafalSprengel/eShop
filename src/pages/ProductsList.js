@@ -26,17 +26,19 @@ const Product = ({ product }) => {
     const stars = (Math.random() * 6)
 
     return (
-        <div className='product'>
-            <span className='img-wrap' ><img src={product.image} alt="" /></span>
-            <Link to={`/product/${product.id}`}>
+        <Link to={`/product/${product.id}`}>
+            <div className='product'>
+                <span className='img-wrap' ><img src={product.image} alt="" /></span>
+
                 <p className='title'>{product.title}</p>
-            </Link>
-            <p className='spacer'></p>
-            <p className={classes.root}>
-                <Rating name="half-rating" value={stars} defaultValue={2.6} precision={0.5} size='small' readOnly />
-            </p>
-            <p className='price'>£{product.price.toFixed(2)}</p>
-        </div >
+
+                <p className='spacer'></p>
+                <p className={classes.root}>
+                    <Rating name="half-rating" value={stars} defaultValue={2.6} precision={0.5} size='small' readOnly />
+                </p>
+                <p className='price'>£{product.price.toFixed(2)}</p>
+            </div >
+        </Link>
     )
 }
 
@@ -46,9 +48,10 @@ const ProductsList = ({ productsList }) => {
             <Header />
             <main>
                 <div className='products'>
-                    {(productsList && productsList.map(el =>
+                    {!productsList && <div className='loading-products'>Loading products...</div>}
+                    {productsList && productsList.map(el =>
                         <Product product={el} key={el.id} />
-                    ))}
+                    )}
                 </div>
             </main>
 

@@ -5,9 +5,8 @@ const Footer = () => {
   const [visits, setVisits] = useState('');
   ;
   useEffect(() => {
-    let delay = 5000; //in milliseconds
+    let delay = 1000 * 60 * 60 * 24; //in milliseconds
     if (!(window.localStorage.getItem('visit_time')) || (parseInt(window.localStorage.getItem('visit_time')) + delay) < Date.now()) { //when time expired
-      console.log('wykonuje if');
       window.localStorage.setItem('visit_time', Date.now());
       const API = "https://annoying-racks.000webhostapp.com?setvisit=eShop"
       fetch(API)
@@ -26,6 +25,7 @@ const Footer = () => {
       .then(response => response.json())
       .then((data) => setVisits(data.visits))
       .catch((errors) => console.log(errors))
+      
   }, []);
   return (
     <footer>

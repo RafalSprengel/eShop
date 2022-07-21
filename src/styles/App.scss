@@ -1,8 +1,8 @@
-
-*{
+* {
   margin: 0;
   padding: 0;
 }
+
 html {
   height: 100%;
   min-width: 248px;
@@ -10,19 +10,23 @@ html {
   color: #333333;
   background-color: whitesmoke;
 }
+
 body {
   min-height: 100%;
   position: relative;
   margin: 0 auto;
 }
+
 a {
   text-decoration: none;
 }
+
 h3,
 h1 {
   text-align: center;
   font-weight: 600;
 }
+
 .App {
   display: flex;
   flex-direction: column;
@@ -38,23 +42,30 @@ content {
   margin: 0 auto;
   background-color: white;
 }
-.link-style{
+
+.link-style {
   color: #287fd9;
   padding-top: 10px;
   padding-bottom: 15px;
   cursor: pointer;
   text-decoration: underline;
 }
-.fieldRequired{
+
+.fieldRequired {
   font-size: .8rem;
   width: 100%;
   padding: 10px;
-  &::before{
+
+  &::before {
     content: '* ';
     color: red;
   }
 }
-.buttContainter{
+
+.buttContainter {
   padding: 15px 0;
 }
-      
+
+main {
+  flex: 1;
+}
