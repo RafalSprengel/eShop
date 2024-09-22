@@ -26,16 +26,19 @@ To run the project locally, follow these steps:
    ```bash
    git clone https://github.com/yourusername/eShop.git
 2. Navigate to the project directory:
+```bash
 cd eShop
-
-3. Install the dependencies:
+4. Install the dependencies:
+```bash
 npm install
 
-4. Start the development server:
+5. Start the development server:
+```bash
 npm start
 
 ## Deployment
 To deploy the project to GitHub Pages, use:
+```bash
 npm run deploy
 
 ## API Integration
