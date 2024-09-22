@@ -24,31 +24,31 @@ const installationInstructions = `
 To run the project locally, follow these steps:
 
 1. Clone the repository:
-   \`\`\`bash
+   ```bash
    git clone https://github.com/yourusername/eShop.git
-   \`\`\`
+   ```
 
 2. Navigate to the project directory:
-   \`\`\`bash
+   ```bash
    cd eShop
-   \`\`\`
+   ```
 
 3. Install the dependencies:
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 4. Start the development server:
-   \`\`\`bash
+   ```bash
    npm start
-   \`\`\`
+   ```
 
 ## Deployment
 
 To deploy the project to GitHub Pages, use:
-\`\`\`bash
+```bash
 npm run deploy
-\`\`\`
+```
 `;
 ## API Integration
 The application fetches product data from Fake Store API. The basket state is managed using Redux actions and reducers.
