@@ -18,31 +18,38 @@ Welcome to the eShop project! This is a React-based e-commerce application that 
 - **Material-UI**: For styling and UI components.
 - **Sass**: For styling with SCSS.
 
+const installationInstructions = `
 ## Installation
 
 To run the project locally, follow these steps:
 
 1. Clone the repository:
-   ```bash
+   \`\`\`bash
    git clone https://github.com/yourusername/eShop.git
-   
+   \`\`\`
+
 2. Navigate to the project directory:
-```bash
-cd eShop
+   \`\`\`bash
+   cd eShop
+   \`\`\`
 
-4. Install the dependencies:
-```bash
-npm install
+3. Install the dependencies:
+   \`\`\`bash
+   npm install
+   \`\`\`
 
-5. Start the development server:
-```bash
-npm start
+4. Start the development server:
+   \`\`\`bash
+   npm start
+   \`\`\`
 
 ## Deployment
-To deploy the project to GitHub Pages, use:
-```bash
-npm run deploy
 
+To deploy the project to GitHub Pages, use:
+\`\`\`bash
+npm run deploy
+\`\`\`
+`;
 ## API Integration
 The application fetches product data from Fake Store API. The basket state is managed using Redux actions and reducers.
 
