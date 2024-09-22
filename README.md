@@ -17,8 +17,6 @@ Welcome to the eShop project! This is a React-based e-commerce application that 
 - **Redux**: For managing application state.
 - **Material-UI**: For styling and UI components.
 - **Sass**: For styling with SCSS.
-
-const installationInstructions = `
 ## Installation
 
 To run the project locally, follow these steps:
@@ -49,7 +47,6 @@ To deploy the project to GitHub Pages, use:
 ```bash
 npm run deploy
 ```
-`;
 ## API Integration
 The application fetches product data from Fake Store API. The basket state is managed using Redux actions and reducers.
 
