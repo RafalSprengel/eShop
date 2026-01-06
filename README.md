@@ -1,57 +1,38 @@
-# eShop
+# eShop - React & Redux E-commerce
 
-Welcome to the eShop project! This is a React-based e-commerce application that allows users to browse products, add them to a basket, and proceed to checkout.
+A functional e-commerce application focusing on state management for shopping cart operations and dynamic product data integration.
 
-## Features
+## 🚀 Live Demo
+- **URL:** [https://rafalsprengel.github.io/eShop/](https://rafalsprengel.github.io/eShop/)
 
-- **Product Listing**: Displays a list of products fetched from an API.
-- **Product Details**: Users can click on a product to view its details.
-- **Basket Functionality**: Add products to a basket, update quantities, and remove items.
-- **Checkout Process**: Navigate to a checkout page for finalizing purchases.
-- **Responsive Design**: Built with Material-UI for a modern and responsive user interface.
+## 🔑 Key Features
+- **Dynamic Product Catalog**: Integration with external REST API (Fake Store API) for real-time product fetching.
+- **Centralized Basket Management**: Full CRUD operations on the shopping cart (add, update quantities, remove) powered by Redux.
+- **Persistent State**: Efficient handling of application state across multiple routes (Product List, Details, Checkout).
+- **Responsive Interface**: Built with Material-UI components for a consistent, mobile-first experience.
+- **Advanced Navigation**: Implementation of React Router for seamless transitions between store sections.
 
-## Technologies Used
+## 🛠 Tech Stack
+- **Frontend**: React.js
+- **State Management**: Redux (Actions, Reducers)
+- **UI Framework**: Material-UI (MUI)
+- **Styling**: Sass (SCSS)
+- **Data Fetching**: Fetch API / External REST Integration
+- **Routing**: React Router
 
-- **React**: For building the user interface.
-- **React Router**: For handling routing between different components.
-- **Redux**: For managing application state.
-- **Material-UI**: For styling and UI components.
-- **Sass**: For styling with SCSS.
-## Installation
+## 📁 Project Structure
+- `src/redux`: Centralized store configuration, reducers, and action creators.
+- `src/components`: UI components (Navbar, Product Cards, Basket).
+- `src/pages`: Main application views (Storefront, Product Details, Checkout).
+- `src/styles`: SCSS files for custom component styling.
 
-To run the project locally, follow these steps:
+## 🏗 Engineering Highlights
+- **Redux Architecture**: Demonstrated understanding of unidirectional data flow and global state maintenance.
+- **Scalable UI**: Utilizing Material-UI's grid system and component library for rapid, consistent development.
+- **API Consumption**: Handling asynchronous data fetching and rendering based on external JSON structures.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/eShop.git
-   ```
-
-2. Navigate to the project directory:
-   ```bash
-   cd eShop
-   ```
-
-3. Install the dependencies:
-   ```bash
-   npm install
-   ```
-
-4. Start the development server:
-   ```bash
-   npm start
-   ```
-
-## Deployment
-
-To deploy the project to GitHub Pages, use:
-```bash
-npm run deploy
-```
-## API Integration
-The application fetches product data from Fake Store API. The basket state is managed using Redux actions and reducers.
-
-## Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests.
-
-## License
-This project is licensed under the MIT License.
+## 🚀 Setup & Installation
+1. Clone the repository: `git clone https://github.com/RafalSprengel/eShop`
+2. Install dependencies: `npm install`
+3. Start development server: `npm start`
+4. Deploy (optional): `npm run deploy`
