@@ -2,9 +2,6 @@
 
 A functional e-commerce application focusing on state management for shopping cart operations and dynamic product data integration.
 
-## 🚀 Live Demo
-- **URL:** [https://rafalsprengel.github.io/eShop/](https://rafalsprengel.github.io/eShop/)
-
 ## 🔑 Key Features
 - **Dynamic Product Catalog**: Integration with external REST API (Fake Store API) for real-time product fetching.
 - **Centralized Basket Management**: Full CRUD operations on the shopping cart (add, update quantities, remove) powered by Redux.
